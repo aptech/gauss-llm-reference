@@ -14,25 +14,28 @@ a * b       // matrix multiplication (NOT element-wise)
 a .* b      // element-wise multiplication
 a / b       // matrix division (b^-1 * a)
 a ./ b      // element-wise division
-a ^ 2       // matrix power
-a .^ 2      // element-wise power
+a ^ 2       // element-wise power (historical)
+a .^ 2      // element-wise power (same as ^)
+powerm(a, 2) // matrix power
 
-// Comparison (element-wise, return 0/1 matrix)
-a .== b     // equal (element-wise)
-a .!= b     // not equal (element-wise)
-a .< b      // less than
-a .<= b     // less than or equal
-a .> b      // greater than
-a .>= b     // greater than or equal
+// Comparison: dot prefix (.) makes it element-wise
+//   Without dot → matrix-wide → returns scalar (1 if ALL satisfy, else 0)
+//   With dot    → element-wise → returns 0/1 matrix
 
-// Comparison (matrix-wide, return scalar 1 or 0)
-a == b      // 1 if ALL elements equal, 0 otherwise
-a != b      // 1 if ALL elements differ, 0 otherwise
+// Matrix-wide (scalar result)
+a == b      a != b      a < b      a <= b      a > b      a >= b
 
-// Logical
-a and b     // logical AND
-a or b      // logical OR
-not a       // logical NOT
+// Element-wise (0/1 matrix)
+a .== b     a .!= b     a .< b     a .<= b     a .> b     a .>= b
+
+// Example:
+x = { 1, 2, 3 };
+x > 2;      // 0 (not ALL elements > 2)
+x .> 2;     // { 0, 0, 1 }
+
+// Logical (same dot-prefix rule: dot = element-wise)
+a and b     a or b      not a       // matrix-wide (scalar)
+a .and b    a .or b     .not a      // element-wise (0/1 matrix)
 
 // String operators
 a $+ b      // string combine (merges into single string)
@@ -50,8 +53,9 @@ x = ones(3, 4);                  // 3x4 matrix of ones
 x = eye(3);                      // 3x3 identity matrix
 x = rndn(100, 5);                // 100x5 random normal
 x = rndu(100, 5);                // 100x5 random uniform [0,1)
-x = seqa(1, 1, 10);              // sequence: 1, 2, ..., 10
-x = seqa(0, 0.5, 5);             // sequence: 0, 0.5, 1, 1.5, 2
+x = 1:10;                        // sequence: 1, 2, ..., 10
+x = 0:0.5:2;                     // sequence: 0, 0.5, 1, 1.5, 2 (start:step:end)
+x = seqa(1, 1, 10);              // same as 1:10
 
 // String arrays
 s = "hello";                     // string
@@ -66,7 +70,7 @@ string s = { "a" "b", "c" "d", "e" "f" }; // 3x2 string array
 ```gauss
 x = rndn(5, 3);
 
-// Row/column selection
+// Row/column selection (. or 0 means "all")
 x[1, .]         // first row, all columns
 x[., 2]         // all rows, second column
 x[1:3, .]       // rows 1-3, all columns
@@ -76,7 +80,7 @@ x[1, 2]         // single element
 // Boolean/conditional selection (use selif, not direct indexing)
 selif(x, x[., 1] .> 0)       // rows where column 1 > 0
 delif(x, x[., 1] .< 0)       // delete rows where column 1 < 0
-indexcat(x[., 1], x[., 1] .> 0)  // get row indices where condition is true
+indexcat(x[., 1] .> 0, 1)  // get row indices where condition is true
 
 // Dataframe column selection by name
 df[., "Age"]                    // single column
@@ -303,7 +307,7 @@ print results;
 // Print formatting with format statement
 format /rd 10,4;                // 10 wide, 4 decimal places
 print x;
-format /rd 1,0;                 // reset to defaults
+format /m1 /ro 16,8;            // reset to defaults
 
 // Format specifiers
 format /rd 8,2;                 // right-justify, decimal, 8 wide, 2 decimals
@@ -325,9 +329,9 @@ format /rd 12,6;                // for doubles/floats
 format /rd 8,0;                 // for integers
 format /rd 1,0;                 // compact (minimal spacing)
 
-// ftos - format number to string
-s = ftos(x, "%10.4f");          // like sprintf for single number
-s = ftos(x, "%*.*lf", 10, 4);   // same with width/precision args
+// ntos - number to string
+s = ntos(x);                    // default formatting
+s = ntos(x, 3);                 // 3 decimal places
 ```
 
 **Print gotchas:**
@@ -432,16 +436,13 @@ subset = selif(data, data[., "Age"] .>= 18);
 
 #### Regression Analysis
 ```gauss
-// Quick OLS
-{ b, se, tstat, pval } = olsqr2(y, x);
+// Quick OLS (prints result table)
+call olsmt(mydf, "y ~ x1 + x2");
 
-// Full OLS with diagnostics
-struct olsmtControl ctl;
-ctl = olsmtControlCreate();
+// OLS with output structure
 struct olsmtOut out;
-out = olsmt("", y ~ x1 + x2 + x3, ctl);
+out = olsmt(mydf, "y ~ x1 + x2 + x3");
 
-// Print results
 print out.beta;
 print out.stderr;
 ```
@@ -516,9 +517,9 @@ x = 5;              // RIGHT
 "a" + "b"           // ERROR
 "a" $+ "b"          // RIGHT: "ab"
 
-// WRONG: row vector when column needed for string array
+// WRONG: combining when array needed
 "a" $+ "b" $+ "c"   // 1x1 string "abc"
-"a" $| "b" $| "c"   // 3x1 string array
+"a" $| "b" $| "c"   // 3x1 string array (e.g., for column names)
 
 // WRONG: 1-indexed (GAUSS is 1-indexed, not 0-indexed)
 x[0, 1]             // ERROR
@@ -529,10 +530,10 @@ a == b              // Matrix comparison: scalar 1 if ALL equal
 a .== b             // Element-wise: returns 0/1 matrix (mask)
 // Use .== when you want a mask for selif()
 
-// WRONG: colon range syntax (not supported)
-x = 1:8;            // ERROR - not valid GAUSS
-x = seqa(1, 1, 8);  // RIGHT: creates 1, 2, 3, ..., 8
-// Note: 1:8 only works INSIDE index brackets: x[1:8, .]
+// Colon range syntax
+x = 1:8;            // creates 1, 2, 3, ..., 8
+x = 1:2:8;          // creates 1, 3, 5, 7 (start:step:end)
+x = seqa(1, 1, 8);  // equivalent to 1:8
 
 // WRONG: curly braces don't work inline with functions
 y = sumc({1,2,3});  // ERROR - can't use braces inline
