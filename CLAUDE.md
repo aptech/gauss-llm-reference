@@ -184,32 +184,29 @@ endp;
 // Call with multiple returns
 { avg, sd } = myStats(data);
 
-  // Optional arguments pattern
-  proc (1) = myFunc(x, ...);
-      local opt1, opt2;
-      { opt1, opt2 } = dynargsGet(1|2, 1, "default");  // indices, then defaults
-      
-      // rest of code
-      
-      retp(result);
-  endp;
+// Optional arguments pattern
+proc (1) = myFunc(x, ...);
+    local opt1, opt2;
+    { opt1, opt2 } = dynargsGet(1|2, 1, "default");  // indices, then defaults
 
-  // Calling:
-  myFunc(x);                    // opt1=1, opt2="default"
-  myFunc(x, 5);                 // opt1=5, opt2="default"
-  myFunc(x, 5, "custom");       // opt1=5, opt2="custom"
+    // rest of code
 
-  // Dynamic argument functions:
-  dynargsCount()    // Number of optional args passed
-  dynargsTypes()    // Vector of type codes for each arg
-  dynargsGet(1, default)        // Get 1st optional arg with default
-  dynargsGet(1|2|3, d1, d2, d3) // Get multiple with defaults
+    retp(result);
+endp;
 
-  // Type codes (from dynargsTypes):
-  //   6=matrix  13=string  15=string array  17=struct  21=array  23=struct pointer  38=sparse
+// Calling:
+myFunc(x);                    // opt1=1, opt2="default"
+myFunc(x, 5);                 // opt1=5, opt2="default"
+myFunc(x, 5, "custom");       // opt1=5, opt2="custom"
 
-  That covers: the pattern, call examples, all three dynargs functions, and type codes as a quick
-  reference comment. Compact but complete.
+// Dynamic argument functions:
+dynargsCount()    // Number of optional args passed
+dynargsTypes()    // Vector of type codes for each arg
+dynargsGet(1, default)        // Get 1st optional arg with default
+dynargsGet(1|2|3, d1, d2, d3) // Get multiple with defaults
+
+// Type codes (from dynargsTypes):
+//   6=matrix  13=string  15=string array  17=struct  21=array  23=struct pointer  38=sparse
 ```
 
 ### Structures
@@ -340,7 +337,7 @@ s = ntos(x, 3);                 // 3 decimal places
 print "x=", x;                  // ERROR - no commas
 
 // WRONG: concatenation in print
-print "x=" $+ ftos(x, "%lf");   // Works but verbose
+print "x=" $+ ntos(x);          // Works but verbose
 
 // RIGHT: space-separated
 print "x=" x;                   // Simple and correct
@@ -476,7 +473,7 @@ pdSummary(panel);
 | Row vector | `{1 2 3}` | `[1,2,3]` | `t(c(1,2,3))` | `[1 2 3]` |
 | Inline column vector | `1\|2\|3` | `np.array([1,2,3])` | `c(1,2,3)` | `[1;2;3]` |
 | Inline row vector | `1~2~3` | `[1,2,3]` | `t(c(1,2,3))` | `[1 2 3]` |
-| Sequence 1 to n | `seqa(1,1,n)` | `range(1,n+1)` | `1:n` | `1:n` |
+| Sequence 1 to n | `1:n` | `range(1,n+1)` | `1:n` | `1:n` |
 | Logical AND | `a and b` or `.and` | `a & b` | `a & b` | `a & b` |
 | Logical OR | `a or b` or `.or` | `a \| b` | `a \| b` | `a \| b` |
 | Not equal (element-wise) | `.!=` | `!=` | `!=` | `~=` |
@@ -490,7 +487,8 @@ pdSummary(panel);
 - Use `selif()` not `x[condition]` for boolean selection
 - Indices start at 1, not 0
 - Semicolons required at end of statements
-- String operators use `$` prefix: `$+`, `$|`, `$~`, `.$==`
+- String operators use `$` prefix: `$+`, `$|`, `$~`
+- String comparison is `$==` (element-wise: `.$==`)
 
 **Key differences from MATLAB:**
 - String operators differ: `$+` (GAUSS) vs `strcat` (MATLAB)
@@ -521,9 +519,9 @@ x = 5;              // RIGHT
 "a" $+ "b" $+ "c"   // 1x1 string "abc"
 "a" $| "b" $| "c"   // 3x1 string array (e.g., for column names)
 
-// WRONG: 1-indexed (GAUSS is 1-indexed, not 0-indexed)
-x[0, 1]             // ERROR
-x[1, 1]             // RIGHT: first element
+// NOTE: GAUSS is 1-indexed, not 0-indexed
+x[1, 1]             // first element
+x[0, 1]             // 0 means "all" - same as x[., 1]
 
 // WRONG: == vs .== confusion
 a == b              // Matrix comparison: scalar 1 if ALL equal
