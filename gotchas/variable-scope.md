@@ -92,7 +92,16 @@ endp;
 
 Note: Variables assigned inside a procedure without `local` declaration will also be global - this is usually a mistake. Always declare locals explicitly.
 
-## Function Pointers - Assignment Before Declaration
+## Function Pointers
+
+Function pointers only work with GAUSS procedures, NOT built-in C functions:
+
+```gauss
+fn = &ols;            // OK - ols is a GAUSS proc
+fn = &myCustomProc;   // OK - user-defined proc
+fn = &sumc;           // ERROR - sumc is a built-in C function
+fn = &meanc;          // ERROR - meanc is a built-in C function
+```
 
 When using function pointers, the assignment MUST come before the type declaration:
 
@@ -100,7 +109,7 @@ When using function pointers, the assignment MUST come before the type declarati
 ```gauss
 proc (1) = myProc(x);
     local fn:proc;        // Declaration first - WRONG
-    fn = &sumc;           // Assignment second
+    fn = &ols;
     retp(fn(x));
 endp;
 ```
@@ -109,7 +118,7 @@ endp;
 ```gauss
 proc (1) = myProc(x);
     local fn;
-    fn = &sumc;           // Assignment first
+    fn = &ols;            // Assignment first
     local fn:proc;        // Declaration second (tells GAUSS it's a proc pointer)
     retp(fn(x));
 endp;
