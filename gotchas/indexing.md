@@ -4,15 +4,15 @@
 
 GAUSS is 1-indexed (like R, MATLAB), not 0-indexed (like Python).
 
-**WRONG**:
-```gauss
-first = x[0, 1];    // ERROR - no row 0
-```
-
-**RIGHT**:
 ```gauss
 first = x[1, 1];    // First row, first column
 last = x[rows(x), cols(x)];  // Last element
+```
+
+Note: `0` in indexing means "all" (same as `.`):
+```gauss
+x[0, 1]             // All rows, column 1 - same as x[., 1]
+x[0]                // All elements of a vector
 ```
 
 ## Boolean Selection - Use selif(), Not Brackets
@@ -34,19 +34,16 @@ Related functions:
 | `delif(x, mask)` | Delete rows where mask is true |
 | `indexcat(x, val)` | Get indices where x equals val |
 
-## Colon Ranges - Only Inside Brackets
+## Colon Range Syntax
 
-Colon ranges ONLY work inside index brackets, not standalone:
+Colon ranges work both standalone and inside brackets:
 
-**WRONG**:
 ```gauss
-x = 1:10;           // ERROR - not valid GAUSS syntax
-```
+x = 1:10;                     // Sequence 1, 2, ..., 10
+x = 1:2:10;                   // Sequence 1, 3, 5, 7, 9 (start:step:end)
+x = seqa(1, 1, 10);           // Same as 1:10
 
-**RIGHT**:
-```gauss
-x = seqa(1, 1, 10);           // Sequence 1, 2, ..., 10
-subset = data[1:10, .];       // Rows 1-10 (colon OK inside brackets)
+subset = data[1:10, .];       // Rows 1-10
 subset = data[., 2:5];        // Columns 2-5
 ```
 

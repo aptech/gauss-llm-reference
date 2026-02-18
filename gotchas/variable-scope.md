@@ -90,15 +90,7 @@ proc (1) = analyze(x);
 endp;
 ```
 
-To explicitly create/modify a global from inside a procedure, declare it:
-
-```gauss
-proc (0) = setGlobal(val);
-    // Declares 'myGlobal' as global, creates if doesn't exist
-    global myGlobal;
-    myGlobal = val;
-endp;
-```
+Note: Variables assigned inside a procedure without `local` declaration will also be global - this is usually a mistake. Always declare locals explicitly.
 
 ## Function Pointers - Assignment Before Declaration
 

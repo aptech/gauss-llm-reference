@@ -91,15 +91,6 @@ s = sprintf("Count: %d, Ratio: %.2f", 42, 0.756);
 s = sprintf("%10.4f", 123.456);  // "  123.4560"
 ```
 
-**Use `ftos()` for single-value formatted output**:
-```gauss
-// ftos(value, format, field_width, precision)
-s = ftos(929.857, "%*.*lf", 7, 2);     // "929.86"
-s = ftos(929.857, "%*.*lE", 1, 4);     // "9.2986E+002"
-
-// With embedded text
-s = ftos(3.5, "Time: %*.*lf seconds.", 1, 1);  // "Time: 3.5 seconds."
-```
 
 ## Print Statement with Strings
 

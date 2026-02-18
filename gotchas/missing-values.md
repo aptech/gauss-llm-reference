@@ -3,11 +3,26 @@
 ## Creating Missing Values
 
 ```gauss
-m = miss(3, 2);           // 3x2 matrix of missing values
-m = miss(1, 1);           // Scalar missing value
+m = miss();                      // scalar missing value
+m = reshape(miss(), 3, 2);       // 3x2 matrix of missing
+m = matinit(3, 2, miss());       // 3x2 matrix of missing (alternative)
 ```
 
 Note: A period `.` by itself is NOT a missing value in code (it means "all" in indexing).
+
+## Converting Values to Missing
+
+`miss(x, val)` replaces elements equal to `val` with missing:
+
+```gauss
+x = { 1, 2, 3, 1, 2 };
+miss(x, 2);               // { 1, ., 3, 1, . } - 2s become missing
+miss(x, 1);               // { ., 2, 3, ., 2 } - 1s become missing
+
+// Common use: convert sentinel values to missing
+data = miss(data, -999);  // replace -999 with missing
+data = miss(data, 0);     // replace 0 with missing
+```
 
 ## Checking for Missing Values
 
@@ -18,18 +33,21 @@ if ismiss(x);
 endif;
 ```
 
+**Check if scalar missing:**
+```gauss
+if scalmiss(x);
+    print "x is scalar missing";
+endif;
+```
+
 **Create a mask of missing values:**
 ```gauss
-// Element-wise comparison
-mask = x .== miss(1, 1);  // 0/1 matrix where 1 = missing
-
-// Or use missrv to find them
-mask = x .== miss(1,1);
+mask = ismiss(x);         // 0/1 matrix where 1 = missing
 ```
 
 **Count missing values:**
 ```gauss
-n_miss = sumc(sumc(x .== miss(1,1)));
+n_miss = sumc(sumc(ismiss(x)));
 ```
 
 ## Removing Missing Values
@@ -88,8 +106,9 @@ endif;
 ## Finding Indices of Missing Values
 
 ```gauss
-// Get row indices where column has missing
-missing_rows = indexcat(x[., 1], miss(1, 1));
+// Get row indices where values are missing
+// Use ismiss() to create mask, then indexcat to find 1s
+missing_rows = indexcat(ismiss(x[., 1]), 1);
 
 // If no missing values, indexcat returns scalar missing
 if scalmiss(missing_rows);
@@ -101,7 +120,7 @@ endif;
 
 ```gauss
 // Check which columns have any missing
-has_missing = sumc(x .== miss(1,1)) .> 0;  // 1xK vector
+has_missing = sumc(ismiss(x)) .> 0;  // 1xK vector
 
 // Get indices of columns with missing
 cols_with_missing = indexcat(has_missing', 1);

@@ -36,20 +36,15 @@ x = { 1, 2, 3 };
 y = sumc(x);
 ```
 
-## Colon Range Outside Brackets
+## Colon Range Syntax
 
-The colon range syntax only works inside index brackets.
+Colon ranges work both standalone and in brackets:
 
-**WRONG**:
 ```gauss
-x = 1:10;                 // ERROR - not valid GAUSS
-```
+x = 1:10;                 // Creates 1, 2, 3, ..., 10
+x = 1:2:10;               // Creates 1, 3, 5, 7, 9 (start:step:end)
+x = seqa(1, 1, 10);       // Same as 1:10
 
-**RIGHT**:
-```gauss
-x = seqa(1, 1, 10);       // Creates 1, 2, 3, ..., 10
-
-// Colon works inside brackets:
 subset = data[1:10, .];   // First 10 rows
 subset = data[., 2:5];    // Columns 2 through 5
 ```

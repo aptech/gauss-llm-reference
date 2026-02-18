@@ -18,8 +18,9 @@ result = a .* b;   // Element-wise multiply (same dimensions)
 | `.*` | Element-wise multiply | `C = A .* B` (same size) |
 | `/` | Matrix divide (solve) | `x = b / A` solves Ax = b |
 | `./` | Element-wise divide | `C = A ./ B` |
-| `^` | Matrix power | `A^2` = A * A |
-| `.^` | Element-wise power | `A.^2` squares each element |
+| `^` | Element-wise power | `A^2` squares each element (historical) |
+| `.^` | Element-wise power | `A.^2` same as `^` |
+| `powerm(A, 2)` | Matrix power | A * A (true matrix power) |
 
 ## Comparison Operators
 
@@ -56,9 +57,10 @@ All comparison operators:
 |----------|------|---------|
 | `and` | Matrix-wide | Scalar 1 if both matrices are all non-zero |
 | `or` | Matrix-wide | Scalar 1 if either matrix has any non-zero |
+| `not` | Matrix-wide | Logical NOT (scalar result) |
 | `.and` | Element-wise | 0/1 matrix |
 | `.or` | Element-wise | 0/1 matrix |
-| `not` | Logical NOT | Inverts 0/1 |
+| `.not` | Element-wise | Inverts each element |
 
 **For combining conditions with `selif()`**, use element-wise:
 ```gauss
