@@ -549,6 +549,7 @@ y = sumr(1~2~3);    // RIGHT: use ~ for horizontal concat
 - `.claude/gauss/matrices.md` - Matrix operations and linear algebra
 - `.claude/gauss/timeseries.md` - Time series analysis
 - `.claude/gauss/panel.md` - Panel data operations
+- `.claude/gauss/libraries.md` - Libraries, #include, SRC_PATH, code organization
 
 ### Application Modules
 
