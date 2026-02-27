@@ -110,9 +110,8 @@ x_lead1 = lagn(x, -1);         // Lead 1 period
 // First difference
 dx = x - lagn(x, 1);
 
-// Or use diff function
-dx = diff(x, 1);               // First difference
-dx = diff(x, 4);               // Fourth difference (e.g., seasonal)
+// Fourth difference (e.g., seasonal)
+dx = x - lagn(x, 4);
 
 // Log difference (returns/growth rate)
 returns = ln(x) - lagn(ln(x), 1);
@@ -249,7 +248,7 @@ endfor;
 // { tstat, pval } = adf(y, lags, trend);
 
 // Manual ADF
-dy = diff(y, 1);
+dy = y - lagn(y, 1);
 y_lag = lagn(y, 1);
 // Include lagged differences for augmentation
 // Regress dy on y_lag and lagged dy's
@@ -263,7 +262,8 @@ y_lag = lagn(y, 1);
 y_seasadj = y - lagn(y, 12);   // First seasonal difference
 
 // Double differencing (trend + seasonal)
-y_double = diff(diff(y, 1), 12);
+y_diff1 = y - lagn(y, 1);                    // First difference
+y_double = y_diff1 - lagn(y_diff1, 12);      // Then seasonal difference
 ```
 
 ### Seasonal Decomposition

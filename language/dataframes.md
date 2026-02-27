@@ -7,11 +7,8 @@
 names = "Age" $| "Income" $| "Score";
 df = asdf(matrix_data, names);
 
-// From file (auto-creates dataframe)
+// From file (format auto-detected from extension: .csv, .xlsx, .dta, .sas7bdat, .h5)
 df = loadd("mydata.csv");
-df = loadd("mydata.xlsx");
-df = loadd("mydata.dta");    // Stata
-df = loadd("mydata.sas7bdat"); // SAS
 
 // Create empty dataframe
 df = asdf(zeros(100, 3), "A" $| "B" $| "C");
@@ -49,21 +46,6 @@ data = loadd("file.csv", "str(Name) + Age");
 
 // Multiple type specs
 data = loadd("file.csv", "date(Date) + cat(Region) + cat(Status) + Amount");
-```
-
-### Transformations in Formula
-```gauss
-// Log transform
-data = loadd("file.csv", "ln(Income) + Age");
-
-// Lag (for time series)
-data = loadd("file.csv", "lag(Price, 1) + Price");
-
-// Difference
-data = loadd("file.csv", "diff(Price, 1) + Price");
-
-// Recoding categorical
-data = loadd("file.csv", "recode(Rating, 1|2|3, 'Low'|'Med'|'High')");
 ```
 
 ## Column Access
@@ -114,12 +96,15 @@ clean = packr(df);  // Removes rows with ANY missing value
 ## Column Operations
 
 ```gauss
-// Add new column with tilde operator
+// Add column at end with tilde operator
 new_col = asdf(rndn(rows(df), 1), "NewCol");
 df = df ~ new_col;
 
-// Add column at beginning
-df = new_col ~ df;
+// Insert column at specific position (after "Age" column)
+df = insertcols(df, "Age", new_col);
+
+// Insert column at beginning (index 0)
+df = insertcols(df, 0, new_col);
 
 // Rename columns
 df = dfname(df, "OldName", "NewName");
@@ -141,42 +126,20 @@ df = setColTypes(df, "category", "Region"); // Make Region categorical
 ## Row Operations
 
 ```gauss
-// Add rows with dfappend
-df = dfappend(df, new_rows_df);
-
-// Vertical concatenation (same as dfappend)
+// Vertical concatenation
 df_combined = df1 | df2;  // Requires same columns
+
+// dfappend - handles new category levels in df2 that don't exist in df1
+df = dfappend(df, new_rows_df);
 ```
 
 ## Missing Values
 
-```gauss
-// Check for missing (returns 1 if any missing in entire matrix)
-hasMissing = ismiss(df);
-
-// Get mask of missing values (0/1 matrix same size as df)
-missingMask = df .== miss();
-
-// Remove rows with missing
-df_clean = packr(df);
-
-// Count missing in a column
-n_miss = counts(df[., "Age"], miss());
-// Or:
-n_miss = sumc(df[., "Age"] .== miss());
-
-// Fill missing with value
-df[., "Age"] = missrv(df[., "Age"], 0);  // Replace missing with 0
-
-// Fill missing with column mean
-col = df[., "Age"];
-col = missrv(col, meanc(packr(col)));
-df[., "Age"] = col;
-
-// Impute missing values
-df = impute(df, "mean");    // Fill with column means
-df = impute(df, "median");  // Fill with column medians
-```
+See `gotchas/missing-values.md` for comprehensive missing value handling. Key functions:
+- `ismiss(df)` - check if any missing
+- `packr(df)` - remove rows with missing
+- `missrv(df, val)` - replace missing with value
+- `impute(df, "mean")` - fill with column means
 
 ## Sorting
 
@@ -187,9 +150,8 @@ df_sorted = sortc(df, "Age");
 // Sort by single column (descending)
 df_sorted = sortc(df, "Age", -1);
 
-// Sort by column index
-df_sorted = sortc(df, 2);       // Ascending by 2nd column
-df_sorted = sortc(df, 2, -1);   // Descending by 2nd column
+// Sort by multiple columns (first by Region, then by Age within each Region)
+df_sorted = sortmc(df, "Region" $| "Age");
 
 // Get sort indices (for custom sorting)
 idx = sortindc(df[., "Age"], 1);    // Ascending indices
@@ -233,14 +195,6 @@ print dout.std;
 ## Merging and Joining
 
 ```gauss
-// Vertical concatenation (stack dataframes)
-df_combined = df1 | df2;  // Requires same columns
-// Or use dfappend:
-df_combined = dfappend(df1, df2);
-
-// Horizontal concatenation (add columns)
-df_wide = df1 ~ df2;  // Requires same number of rows
-
 // Merge/Join by key
 df_merged = innerjoin(df1, "KeyCol", df2, "KeyCol");
 df_merged = outerjoin(df1, "KeyCol", df2, "KeyCol");

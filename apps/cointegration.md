@@ -33,7 +33,8 @@ out_levels = adf(y, lags, 1);
 print "Levels p-value:" out_levels.pval;
 
 // Test in first differences
-out_diff = adf(diff(y, 1), lags, 1);
+dy = y - lagn(y, 1);
+out_diff = adf(packr(dy), lags, 1);
 print "First diff p-value:" out_diff.pval;
 
 // If levels p > 0.05 but diff p < 0.05, series is I(1)
@@ -68,8 +69,8 @@ print "EG test statistic:" out.tstat;
 ### Step 3: Error Correction Model
 ```gauss
 // If cointegrated, estimate ECM
-dy1 = diff(y1, 1);
-dy2 = diff(y2, 1);
+dy1 = y1 - lagn(y1, 1);
+dy2 = y2 - lagn(y2, 1);
 ecm = lagn(resid, 1);        // Lagged equilibrium error
 
 // ECM regression: dy1 = a + b*dy2 + c*ecm + error

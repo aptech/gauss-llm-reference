@@ -109,7 +109,7 @@ mask = x[., 1] .> 0;          // Boolean mask
 positive = selif(x, mask);    // Rows where col 1 > 0
 
 // Find indices where condition is true
-idx = indexcat(x[., 1], x[., 1] .> 0);
+idx = indexcat(x[., 1] .> 0, 1);  // indices where mask equals 1
 ```
 
 ## Matrix Concatenation
