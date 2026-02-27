@@ -2,6 +2,14 @@
 
 This reference helps Claude write idiomatic GAUSS code. GAUSS is a matrix-oriented programming language designed for statistical analysis, econometrics, and data science.
 
+## GAUSS Code Generation Rules
+
+- **`local` is ONLY valid inside procedures** — never use `local` at global scope. At global scope, just assign variables directly.
+- **Wrap print expressions in parentheses:** `print (1 + 2);` not `print 1 + 2;` — spaces around operators cause parse errors in versions before 26.0.1. Most users are on older versions.
+- **Boolean row selection uses `selif()`**, not bracket indexing. `selif(x, x[.,1] .> 0)` — never `x[x[.,1] .> 0]`.
+- **String operators use `$` prefix:** `$+` combine, `$|` vertical concat, `$~` horizontal concat. Never use `+` for string concatenation.
+- **`==` is matrix-wide (returns scalar 1 if ALL elements match).** Use `.==` for an element-wise 0/1 mask. This is the opposite of MATLAB where `==` is element-wise.
+
 ## Quick Reference
 
 ### Basic Operators
