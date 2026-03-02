@@ -67,8 +67,9 @@ cols = df[., 1:3];
 // Get column names
 names = getColNames(df);
 
-// Get column types
-types = getColTypes(df);  // Returns: 0=numeric, 1=string, 2=date, 3=category
+// Get column types (returns a dataframe; use asmatrix() for numeric codes)
+types = getColTypes(df);  // Display: "string", "number", "category", "date"
+                          // Numeric: 0=string, 1=number, 2=category, 3=date
 
 // Check if column exists
 hasCol = contains(getColNames(df), "Age");
@@ -221,17 +222,14 @@ GAUSS represents dates internally as POSIX timestamps (seconds since 1970-01-01)
 // Load with date column
 df = loadd("file.csv", "date(OrderDate) + Amount");
 
-// Create date from components
-dt = timeutc(2024, 6, 15, 0, 0, 0);  // Returns POSIX timestamp
+// Create date from string (returns POSIX timestamp)
+dt = strctoposix("2024-06-15", "%Y-%m-%d");
+dt = strctoposix("June 15, 2024", "%B %d, %Y");
 
-// Format date for display using posixToStrc
-date_str = posixToStrc(dt, "%Y-%m-%d");           // "2024-06-15"
-date_str = posixToStrc(dt, "%B %d, %Y");          // "June 15, 2024"
-date_str = posixToStrc(dt, "%Y-%m-%d %H:%M:%S");  // With time
-
-// Parse date string to POSIX using strcToPosix
-dt = strcToPosix("2024-06-15", "%Y-%m-%d");
-dt = strcToPosix("June 15, 2024", "%B %d, %Y");
+// Format date for display
+date_str = posixtostrc(dt, "%Y-%m-%d");           // "2024-06-15"
+date_str = posixtostrc(dt, "%B %d, %Y");          // "June 15, 2024"
+date_str = posixtostrc(dt, "%Y-%m-%d %H:%M:%S");  // With time
 
 // Common format codes:
 // %Y = 4-digit year, %y = 2-digit year

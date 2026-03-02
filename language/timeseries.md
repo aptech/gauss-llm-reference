@@ -6,24 +6,25 @@ GAUSS uses POSIX timestamps (seconds since 1970-01-01 00:00:00 UTC) for dates.
 
 ### Creating Dates
 ```gauss
-// From components (year, month, day, hour, min, sec)
-dt = timeutc(2024, 6, 15, 0, 0, 0);   // June 15, 2024 midnight UTC
+// From string (returns POSIX timestamp)
+dt = strctoposix("2024-06-15", "%Y-%m-%d");
+dt = strctoposix("06/15/2024", "%m/%d/%Y");
+dt = strctoposix("2024-06-15 14:30:00", "%Y-%m-%d %H:%M:%S");
 
-// Current time
-now = todaydt();
+// Current UTC time (returns POSIX timestamp)
+now = timeutc;
 
-// From string
-dt = strcToPosix("2024-06-15", "%Y-%m-%d");
-dt = strcToPosix("06/15/2024", "%m/%d/%Y");
-dt = strcToPosix("2024-06-15 14:30:00", "%Y-%m-%d %H:%M:%S");
+// Date sequences
+dates = seqaPosix("2024-01-01", 1, "days", 252);   // 252 daily dates
+dates = seqaPosix("2020-01-01", 1, "months", 24);  // 24 monthly dates
 ```
 
 ### Formatting Dates
 ```gauss
 // To string
-s = posixToStrc(dt, "%Y-%m-%d");           // "2024-06-15"
-s = posixToStrc(dt, "%B %d, %Y");          // "June 15, 2024"
-s = posixToStrc(dt, "%Y-%m-%d %H:%M:%S");  // "2024-06-15 00:00:00"
+s = posixtostrc(dt, "%Y-%m-%d");           // "2024-06-15"
+s = posixtostrc(dt, "%B %d, %Y");          // "June 15, 2024"
+s = posixtostrc(dt, "%Y-%m-%d %H:%M:%S");  // "2024-06-15 00:00:00"
 
 // Common format codes:
 // %Y = 4-digit year
@@ -75,14 +76,13 @@ hours_diff = (date2 - date1) / one_hour;
 // Load with date column
 df = loadd("prices.csv", "date(Date) + Price + Volume");
 
-// Create date sequence
+// Create date sequence (seqaPosix handles variable-length months/years correctly)
 n = 252;  // Trading days
-start = timeutc(2024, 1, 1, 0, 0, 0);
-dates = seqa(start, 86400, n);  // Daily dates
+dates = seqaPosix("2024-01-01", 1, "days", n);
 
 // Combine dates with values
 prices = cumsumc(rndn(n, 1)) + 100;
-df = asdf(dates ~ prices, "Date" $| "Price");
+df = asDate(dates) ~ dfname(prices, "Price");
 ```
 
 ### Sorting by Date
@@ -292,8 +292,8 @@ residual = y - trend - seasonal;
 ### Creating Trading Calendar
 ```gauss
 // Generate business days only
-start = timeutc(2024, 1, 1, 0, 0, 0);
-end_date = timeutc(2024, 12, 31, 0, 0, 0);
+start = strctoposix("2024-01-01", "%Y-%m-%d");
+end_date = strctoposix("2024-12-31", "%Y-%m-%d");
 
 dates = {};
 dt = start;
@@ -349,8 +349,8 @@ clean = packr(df);
 struct plotControl pc;
 pc = plotGetDefaults("xy");
 
-// Format x-axis as dates
-plotSetXTicLabel(&pc, "%Y-%m");
+// Format x-axis as dates (uses GAUSS legacy format codes, NOT BSD strftime)
+plotSetXTicLabel(&pc, "YYYY-MO");
 
 // Add title and labels
 plotSetTitle(&pc, "Stock Price Over Time");

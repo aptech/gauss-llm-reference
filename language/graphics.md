@@ -164,12 +164,12 @@ plotSetFill(&pc, 1, "lightgray");
 ### Time Series Plot
 ```gauss
 // With date x-axis
-dates = seqa(timeutc(2020, 1, 1, 0, 0, 0), 86400, 365);  // Daily for 1 year
+dates = seqaPosix("2020-01-01", 1, "days", 365);  // Daily for 1 year
 values = cumsumc(rndn(365, 1));
 
 struct plotControl pc;
 pc = plotGetDefaults("xy");
-plotSetXTicLabel(&pc, "%Y-%m");  // Format: 2020-01
+plotSetXTicLabel(&pc, "YYYY-MO");  // GAUSS legacy format codes (not BSD strftime)
 plotXY(pc, dates, values);
 ```
 
@@ -336,8 +336,8 @@ plotBar(pc, categories, sales_2022 ~ sales_2023);
 ## Tic Label Formatting
 
 ```gauss
-// Date format on X axis
-plotSetXTicLabel(&pc, "%Y-%m-%d");
+// Date format on X axis (uses GAUSS legacy codes, not BSD strftime)
+plotSetXTicLabel(&pc, "YYYY-MO-DD");
 
 // Percent format
 plotSetYTicLabel(&pc, "%.0f%%");
