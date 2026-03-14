@@ -5,7 +5,7 @@ emptyfunc
 Purpose
 ----------------
 
-A function with an empty code block.
+A function with a code block that has only placeholder content.
 
 Format
 ----------------
@@ -23,4 +23,4 @@ Examples
 
 ::
 
-
+    ...
