@@ -45,11 +45,12 @@ Plans:
   2. Orphan page detection correctly identifies RST files not in any toctree while respecting :orphan: directives and include fragments
   3. Function coverage report lists Command Reference functions whose names never appear in any code example across the docs
   4. See Also links that point to non-existent function pages are flagged
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Sphinx environment loader, dependency updates, get_all_sphinx_checkers() helper
+- [ ] 02-02-PLAN.md — Four Sphinx-mode checkers (links, orphans, coverage, seealso) with unit tests
+- [ ] 02-03-PLAN.md — CLI check-refs subcommand, --sphinx flag on scan, integration tests
 
 ### Phase 3: Auto-Fix
 **Goal**: User can automatically correct safely-fixable issues without risking RST corruption
@@ -88,7 +89,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Structural Checks | 2/3 | In progress | - |
-| 2. Cross-Reference Validation | 0/2 | Not started | - |
+| 1. Foundation and Structural Checks | 3/3 | Complete | 2026-03-14 |
+| 2. Cross-Reference Validation | 0/3 | Not started | - |
 | 3. Auto-Fix | 0/1 | Not started | - |
 | 4. AI Persona Reviews | 0/2 | Not started | - |
