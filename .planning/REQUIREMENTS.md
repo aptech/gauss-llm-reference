@@ -112,10 +112,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | REPT-04 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 22 total
-- Mapped to phases: 22
+- v1 requirements: 25 total
+- Mapped to phases: 25
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-14*
-*Last updated: 2026-03-14 after initial definition*
+*Last updated: 2026-03-14 after roadmap creation*
