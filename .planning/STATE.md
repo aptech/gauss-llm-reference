@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-14)
 ## Current Position
 
 Phase: 1 of 4 (Foundation and Structural Checks)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: Executing
-Last activity: 2026-03-14 — Completed 01-01 (Foundation Models and Parser)
+Last activity: 2026-03-14 — Completed 01-02 (Structural Checkers)
 
-Progress: [█░░░░░░░░░] 8%
+Progress: [██░░░░░░░░] 17%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 7 min
-- Total execution time: 0.1 hours
+- Total plans completed: 2
+- Average duration: 5 min
+- Total execution time: 0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 1 | 7 min | 7 min |
+| 01 | 2 | 10 min | 5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (7 min)
-- Trend: -
+- Last 5 plans: 01-01 (7 min), 01-02 (3 min)
+- Trend: improving
 
 *Updated after each plan completion*
 
@@ -48,6 +48,8 @@ Recent decisions affecting current work:
 - [01-01]: Used findall() over deprecated traverse() for docutils 0.22.4 compatibility
 - [01-01]: Extract fields from system_message literal_blocks for Sphinx directive fallback (.. function::)
 - [01-01]: Empty code block detection via AST has a limitation; STRC-02 checker may need raw source analysis supplement
+- [01-02]: Signature detection parses .. function:: from system_message literal_blocks (docutils treats Sphinx directives as unknown)
+- [01-02]: Operator pages excluded from signature checks (use Parameters/Returns sections, not :param: fields)
 
 ### Pending Todos
 
@@ -60,5 +62,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-14
-Stopped at: Completed 01-01-PLAN.md
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
