@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project skeleton, models, RST parser, classifier, inventory scanner
+- [x] 01-01-PLAN.md — Project skeleton, models, RST parser, classifier, inventory scanner
 - [ ] 01-02-PLAN.md — Structural checkers (code blocks, sections, signatures) with registry
 - [ ] 01-03-PLAN.md — CLI entry point, report formatters (terminal/JSON/markdown), end-to-end wiring
 
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Structural Checks | 0/3 | Planned | - |
+| 1. Foundation and Structural Checks | 1/3 | In progress | - |
 | 2. Cross-Reference Validation | 0/2 | Not started | - |
 | 3. Auto-Fix | 0/1 | Not started | - |
 | 4. AI Persona Reviews | 0/2 | Not started | - |

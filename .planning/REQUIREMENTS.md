@@ -9,9 +9,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUN-01**: RST files parsed via docutils AST (not regex) with doc type classification (function, operator, index, guide, fragment)
+- [x] **FOUN-01**: RST files parsed via docutils AST (not regex) with doc type classification (function, operator, index, guide, fragment)
 - [ ] **FOUN-02**: Sphinx environment loads with custom GAUSS domain for cross-reference resolution
-- [ ] **FOUN-03**: Finding dataclass with severity levels (ERROR/WARNING/INFO), file path, line number, category, message
+- [x] **FOUN-03**: Finding dataclass with severity levels (ERROR/WARNING/INFO), file path, line number, category, message
 - [ ] **FOUN-04**: CLI entry point with subcommands for individual checks and full scan
 
 ### Structural Checks
@@ -85,9 +85,9 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUN-01 | Phase 1 | Pending |
+| FOUN-01 | Phase 1 | Complete |
 | FOUN-02 | Phase 2 | Pending |
-| FOUN-03 | Phase 1 | Pending |
+| FOUN-03 | Phase 1 | Complete |
 | FOUN-04 | Phase 1 | Pending |
 | STRC-01 | Phase 1 | Pending |
 | STRC-02 | Phase 1 | Pending |
