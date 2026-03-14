@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Reports are available in terminal (with color), JSON, and Markdown formats
   4. Report header shows summary counts grouped by category and severity
   5. The tool correctly classifies RST files by doc type (function page, operator page, guide, index, fragment) and uses docutils AST parsing, not regex
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — Project skeleton, models, RST parser, classifier, inventory scanner
+- [ ] 01-02-PLAN.md — Structural checkers (code blocks, sections, signatures) with registry
+- [ ] 01-03-PLAN.md — CLI entry point, report formatters (terminal/JSON/markdown), end-to-end wiring
 
 ### Phase 2: Cross-Reference Validation
 **Goal**: User can detect broken links, orphan pages, and uncovered functions using full Sphinx-aware resolution
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Structural Checks | 0/3 | Not started | - |
+| 1. Foundation and Structural Checks | 0/3 | Planned | - |
 | 2. Cross-Reference Validation | 0/2 | Not started | - |
 | 3. Auto-Fix | 0/1 | Not started | - |
 | 4. AI Persona Reviews | 0/2 | Not started | - |
