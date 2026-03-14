@@ -12,7 +12,7 @@ Build a multi-tier quality assurance system for ~1,700 RST files in the GAUSS Sp
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation and Structural Checks** - Parse RST via docutils, classify doc types, run fast structural checks, output reports
+- [x] **Phase 1: Foundation and Structural Checks** - Parse RST via docutils, classify doc types, run fast structural checks, output reports
 - [ ] **Phase 2: Cross-Reference Validation** - Load Sphinx environment with GAUSS domain for link resolution, orphan detection, and function coverage
 - [ ] **Phase 3: Auto-Fix** - Conservative automated corrections for broken links and structural issues with dry-run safety
 - [ ] **Phase 4: AI Persona Reviews** - Batch Claude API reviews with structured rubrics across 3 personas and doc sections
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Project skeleton, models, RST parser, classifier, inventory scanner
 - [x] 01-02-PLAN.md — Structural checkers (code blocks, sections, signatures) with registry
-- [ ] 01-03-PLAN.md — CLI entry point, report formatters (terminal/JSON/markdown), end-to-end wiring
+- [x] 01-03-PLAN.md — CLI entry point, report formatters (terminal/JSON/markdown), end-to-end wiring
 
 ### Phase 2: Cross-Reference Validation
 **Goal**: User can detect broken links, orphan pages, and uncovered functions using full Sphinx-aware resolution

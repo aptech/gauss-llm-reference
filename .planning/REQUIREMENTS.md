@@ -12,7 +12,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **FOUN-01**: RST files parsed via docutils AST (not regex) with doc type classification (function, operator, index, guide, fragment)
 - [ ] **FOUN-02**: Sphinx environment loads with custom GAUSS domain for cross-reference resolution
 - [x] **FOUN-03**: Finding dataclass with severity levels (ERROR/WARNING/INFO), file path, line number, category, message
-- [ ] **FOUN-04**: CLI entry point with subcommands for individual checks and full scan
+- [x] **FOUN-04**: CLI entry point with subcommands for individual checks and full scan
 
 ### Structural Checks
 
@@ -42,10 +42,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Reporting
 
-- [ ] **REPT-01**: Terminal output with severity colors via rich library
-- [ ] **REPT-02**: JSON report output for machine processing
-- [ ] **REPT-03**: Markdown report output for sharing and review
-- [ ] **REPT-04**: Summary counts by category and severity at top of every report
+- [x] **REPT-01**: Terminal output with severity colors via rich library
+- [x] **REPT-02**: JSON report output for machine processing
+- [x] **REPT-03**: Markdown report output for sharing and review
+- [x] **REPT-04**: Summary counts by category and severity at top of every report
 
 ## v2 Requirements
 
@@ -88,7 +88,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | FOUN-01 | Phase 1 | Complete |
 | FOUN-02 | Phase 2 | Pending |
 | FOUN-03 | Phase 1 | Complete |
-| FOUN-04 | Phase 1 | Pending |
+| FOUN-04 | Phase 1 | Complete |
 | STRC-01 | Phase 1 | Complete |
 | STRC-02 | Phase 1 | Complete |
 | STRC-03 | Phase 2 | Pending |
@@ -106,10 +106,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | AIRV-03 | Phase 4 | Pending |
 | AIRV-04 | Phase 4 | Pending |
 | AIRV-05 | Phase 4 | Pending |
-| REPT-01 | Phase 1 | Pending |
-| REPT-02 | Phase 1 | Pending |
-| REPT-03 | Phase 1 | Pending |
-| REPT-04 | Phase 1 | Pending |
+| REPT-01 | Phase 1 | Complete |
+| REPT-02 | Phase 1 | Complete |
+| REPT-03 | Phase 1 | Complete |
+| REPT-04 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 25 total
