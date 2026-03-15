@@ -440,3 +440,110 @@ def review(ctx, persona, sample, output_format, output):
 
     # Render
     _render_findings(all_findings, output_format, output)
+
+
+@cli.command("deep-validate")
+@click.option("--top-n", type=int, default=100,
+              help="Number of top functions to validate (default: 100)")
+@click.option("--targets-file", type=click.Path(exists=True), default=None,
+              help="File with function names (one per line), e.g., from freq --output-targets")
+@click.option("--no-ai", is_flag=True, default=False,
+              help="Skip AI-assisted example verification (faster, structural checks only)")
+@click.option("--no-blog", is_flag=True, default=False,
+              help="Skip blog scraping when computing frequency ranking")
+@click.option("--format", "output_format",
+              type=click.Choice(["terminal", "json", "markdown"]),
+              default="terminal", help="Output format")
+@click.option("--output", "-o", type=click.Path(), default=None,
+              help="Write report to file instead of stdout")
+@click.pass_context
+def deep_validate(ctx, top_n, targets_file, no_ai, no_blog, output_format, output):
+    """Deep validation of top-N function pages."""
+    import os
+
+    docs_dir = ctx.obj["docs_dir"]
+
+    # Step 1: Determine target function names
+    if targets_file:
+        # Read from targets file (one name per line)
+        target_names = [
+            line.strip()
+            for line in Path(targets_file).read_text().strip().split("\n")
+            if line.strip()
+        ]
+        click.echo(f"Loaded {len(target_names)} target functions from {targets_file}")
+    else:
+        # Run frequency ranking pipeline to determine top-N
+        from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
+        click.echo("Loading Sphinx environment...")
+        env = load_sphinx_env(docs_dir)
+        click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
+
+        from gauss_doc_qa.frequency.counter import count_crossrefs
+        click.echo("Counting cross-references...")
+        doc_ref_counts = count_crossrefs(docs_dir, env)
+
+        blog_mention_counts: dict[str, int] = {}
+        if not no_blog:
+            from gauss_doc_qa.frequency.blog_scraper import scrape_blog_mentions
+            known_functions = set(env.domaindata.get("gauss", {}).get("objects", {}).keys())
+            click.echo(f"Scraping blog mentions for {len(known_functions)} functions...")
+            blog_mention_counts = scrape_blog_mentions(known_functions)
+        else:
+            click.echo("Skipping blog scraping (--no-blog)")
+
+        from gauss_doc_qa.frequency.scorer import rank_functions
+        rankings = rank_functions(env, doc_ref_counts, blog_mention_counts, 0.7, 0.3)
+        target_names = [r.name for r in rankings[:top_n]]
+        click.echo(f"Selected top {len(target_names)} functions by frequency")
+
+    # Step 2: Load Sphinx environment (if not already loaded)
+    if targets_file:
+        from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
+        click.echo("Loading Sphinx environment...")
+        env = load_sphinx_env(docs_dir)
+        click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
+
+    # Step 3: Run structural deep checks
+    from gauss_doc_qa.deep.checker import deep_check_functions
+    click.echo(f"Running structural deep checks on {len(target_names)} functions...")
+    results = deep_check_functions(target_names, docs_dir, env)
+    click.echo(f"Checked {len(results)} functions (some targets may not have doc pages)")
+
+    # Step 4: Run AI checks (unless --no-ai)
+    if not no_ai:
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            click.echo("Warning: ANTHROPIC_API_KEY not set, skipping AI checks. Use --no-ai to suppress this warning.")
+        else:
+            from gauss_doc_qa.deep.ai_checker import ai_check_examples_batch
+            click.echo("Running AI example verification...")
+            results = ai_check_examples_batch(results, docs_dir)
+    else:
+        click.echo("Skipping AI checks (--no-ai)")
+
+    # Step 5: Render report
+    from gauss_doc_qa.deep.report import render_deep_terminal, render_deep_json, render_deep_markdown
+
+    if output_format == "json":
+        report_text = render_deep_json(results)
+        if output:
+            Path(output).write_text(report_text)
+        else:
+            click.echo(report_text)
+    elif output_format == "markdown":
+        report_text = render_deep_markdown(results)
+        if output:
+            Path(output).write_text(report_text)
+        else:
+            click.echo(report_text)
+    else:
+        if output:
+            with open(output, "w") as f:
+                console = Console(file=f, force_terminal=False)
+                render_deep_terminal(results, console)
+        else:
+            render_deep_terminal(results)
+
+    # Step 6: Summary line
+    passed = sum(1 for r in results if r.overall_pass)
+    click.echo(f"Deep validation: {passed}/{len(results)} functions passed all checks")
