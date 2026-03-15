@@ -36,9 +36,9 @@
 
 | Feature | Reason |
 |---------|--------|
-| Glossary auto-fix | Deferred to v1.2 — want to validate glossary file format first |
-| Glossary auto-generation | Deferred to v1.2 — manual curation more reliable for v1 |
-| Diff-mode | Workflow efficiency, not doc quality — v1.2 |
+| Glossary auto-fix | Deferred to v1.2 -- want to validate glossary file format first |
+| Glossary auto-generation | Deferred to v1.2 -- manual curation more reliable for v1 |
+| Diff-mode | Workflow efficiency, not doc quality -- v1.2 |
 | Feedback widget | Requires deployment infrastructure |
 | Screenshot inventory | Separate effort |
 
@@ -46,23 +46,23 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GLOS-01 | TBD | Pending |
-| GLOS-02 | TBD | Pending |
-| GLOS-03 | TBD | Pending |
-| GLOS-04 | TBD | Pending |
-| FREQ-01 | TBD | Pending |
-| FREQ-02 | TBD | Pending |
-| FREQ-03 | TBD | Pending |
-| DEEP-01 | TBD | Pending |
-| DEEP-02 | TBD | Pending |
-| DEEP-03 | TBD | Pending |
-| DEEP-04 | TBD | Pending |
+| GLOS-01 | Phase 5 | Pending |
+| GLOS-02 | Phase 5 | Pending |
+| GLOS-03 | Phase 5 | Pending |
+| GLOS-04 | Phase 5 | Pending |
+| FREQ-01 | Phase 6 | Pending |
+| FREQ-02 | Phase 6 | Pending |
+| FREQ-03 | Phase 6 | Pending |
+| DEEP-01 | Phase 7 | Pending |
+| DEEP-02 | Phase 7 | Pending |
+| DEEP-03 | Phase 7 | Pending |
+| DEEP-04 | Phase 7 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 ⚠️
+- Mapped to phases: 11
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-15*
-*Last updated: 2026-03-15 after initial definition*
+*Last updated: 2026-03-15 after roadmap creation*
