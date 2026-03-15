@@ -18,7 +18,7 @@ class SectionChecker(BaseChecker):
     REQUIRED_SECTIONS: dict[DocType, list[str]] = {
         DocType.COMMAND_REF: ["purpose", "format", "examples"],
         DocType.OPERATOR: ["purpose", "format", "examples"],
-        DocType.APP_MODULE: ["purpose", "format", "examples"],
+        # APP_MODULE excluded — mix of function refs, guides, and index pages
     }
 
     def check(self, parsed_doc: ParsedDoc, **kwargs) -> list[Finding]:

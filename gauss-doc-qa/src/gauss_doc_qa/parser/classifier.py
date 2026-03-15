@@ -58,6 +58,10 @@ _NON_FUNCTION_STEMS = frozenset({
     "command-reference",
     "changelog",
     "schtoc",
+    "data-management",
+    "learning-resources",
+    "gml-landing",
+    "machine-learning",
 })
 
 

@@ -28,6 +28,7 @@ class CodeBlockChecker(BaseChecker):
             DocType.GETTING_STARTED,
             DocType.USER_GUIDE,
             DocType.GRAPHICS_GUIDE,
+            DocType.APP_MODULE,  # mix of function refs, guides, index pages
             DocType.OTHER,
         ):
             return findings
