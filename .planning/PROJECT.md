@@ -30,10 +30,13 @@ Every function in the Command Reference must have an accurate signature, correct
 ### Active
 
 - [ ] Terminology consistency enforcement via canonical glossary
-- [ ] Top-N function deep validation (frequency-ranked)
+- [ ] Top-100 function deep validation (frequency-ranked from cross-reference analysis)
 - [ ] Cross-reference frequency ranking for function importance
-- [ ] Diff-mode: only check files changed since last run
-- [ ] :doc: and :ref: auto-fix (currently only :func:)
+
+### Deferred (v1.2+)
+
+- Diff-mode: only check files changed since last run — workflow efficiency, not doc quality
+- :doc: and :ref: auto-fix — incremental extension of v1.0 :func: auto-fix
 
 ### Out of Scope
 
@@ -69,5 +72,14 @@ Every function in the Command Reference must have an accurate signature, correct
 | Leaf-text-only auto-fix | RST corruption prevention for tables/directives/code | ✓ Good |
 | Fuzzy match with 0.85 threshold | Balances recall vs false positive auto-fixes | — Pending validation on real corpus |
 
+## Current Milestone: v1.1 Glossary & Deep Validation
+
+**Goal:** Ensure terminology consistency across the doc corpus and deeply validate the 100 most-referenced functions for signature accuracy, example correctness, and edge case coverage.
+
+**Target features:**
+- Canonical glossary with term enforcement across all RST files
+- Cross-reference frequency ranking to identify the Top-100 functions
+- Deep validation of Top-100 function pages (signature, examples, edge cases)
+
 ---
-*Last updated: 2026-03-15 after v1.0 milestone*
+*Last updated: 2026-03-15 after v1.1 milestone start*
