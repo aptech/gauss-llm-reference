@@ -63,11 +63,11 @@ Plans:
   2. AI-assisted review flags suspicious example code (wrong function names, impossible parameters, misleading comments) for each top-N function
   3. Validation report shows per-function drill-down with individual check results across all deep checks
   4. CLI deep-validate subcommand accepts --top-n flag and runs the full frequency ranking + deep validation pipeline end-to-end
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
+- [ ] 07-01-PLAN.md -- Deep validation models, structural page checker (4 checks), and report formatters
+- [ ] 07-02-PLAN.md -- AI-assisted example verification and CLI deep-validate subcommand
 
 ## Progress
 
@@ -80,5 +80,5 @@ Plans:
 | 3. Auto-Fix | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 5. Terminology Glossary | v1.1 | 1/2 | In progress | - |
-| 6. Cross-Reference Frequency Ranking | 1/2 | In Progress|  | - |
-| 7. Top-N Deep Validation | v1.1 | 0/? | Not started | - |
+| 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
+| 7. Top-N Deep Validation | v1.1 | 0/2 | Not started | - |
