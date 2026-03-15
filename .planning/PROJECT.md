@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A multi-tier quality assurance tool (`gauss-doc-qa`) for the GAUSS 26 Sphinx documentation (~1,700 RST files). Provides structural checks, cross-reference validation via the Sphinx dummy builder with custom GAUSS domain awareness, auto-fix for broken links with RST safety constraints, and AI persona-based reviews using Claude API structured outputs.
+A comprehensive documentation QA tool (`gauss-doc-qa`) for the GAUSS 26 Sphinx documentation (~1,700 RST files). Provides structural checks, cross-reference validation, terminology enforcement, auto-fix for broken links, AI persona reviews, frequency-based function ranking, and deep validation of the most-referenced function pages.
 
 ## Core Value
 
@@ -26,17 +26,17 @@ Every function in the Command Reference must have an accurate signature, correct
 - ✓ Sphinx build verification after auto-fix — v1.0
 - ✓ AI persona reviews with binary rubrics (Newcomer, Expert, Writer) — v1.0
 - ✓ AI findings integrated into standard report pipeline — v1.0
+- ✓ Canonical glossary file (YAML) with terminology scanner — v1.1
+- ✓ Cross-reference frequency ranking with blog scraping — v1.1
+- ✓ Top-100 function deep validation (structural + AI-assisted) — v1.1
+- ✓ Deep validation per-function drill-down report — v1.1
 
 ### Active
 
-- [ ] Terminology consistency enforcement via canonical glossary
-- [ ] Top-100 function deep validation (frequency-ranked from cross-reference analysis)
-- [ ] Cross-reference frequency ranking for function importance
-
-### Deferred (v1.2+)
-
-- Diff-mode: only check files changed since last run — workflow efficiency, not doc quality
-- :doc: and :ref: auto-fix — incremental extension of v1.0 :func: auto-fix
+- [ ] Diff-mode: only check files changed since last run
+- [ ] :doc: and :ref: auto-fix (currently only :func:)
+- [ ] Glossary auto-fix for non-canonical terms
+- [ ] Glossary auto-generation from corpus term frequency
 
 ### Out of Scope
 
@@ -48,10 +48,11 @@ Every function in the Command Reference must have an accurate signature, correct
 ## Context
 
 - Docs live at `~/svn/gxmldoc/docs/` — Sphinx RST format
-- Shipped v1.0 with 2,307 LOC source + 2,455 LOC tests (Python)
+- Shipped v1.1 with 3,740 LOC source + 4,378 LOC tests (Python)
 - Tech stack: Python, docutils, Sphinx (dummy builder), Click CLI, Rich terminal output, Anthropic SDK
 - Custom GAUSS Sphinx domain uses `primary_domain='gauss'` and `default_role='any'` with case-insensitive matching
-- 160+ tests across structural checks, cross-ref validation, auto-fix, and AI review
+- 250+ tests across structural checks, cross-ref validation, auto-fix, AI review, glossary, frequency, and deep validation
+- CLI: scan, check-refs, fix, review, freq, deep-validate
 
 ## Constraints
 
@@ -71,15 +72,9 @@ Every function in the Command Reference must have an accurate signature, correct
 | Lazy imports for optional deps | Sphinx/anthropic don't break non-dependent commands | ✓ Good |
 | Leaf-text-only auto-fix | RST corruption prevention for tables/directives/code | ✓ Good |
 | Fuzzy match with 0.85 threshold | Balances recall vs false positive auto-fixes | — Pending validation on real corpus |
-
-## Current Milestone: v1.1 Glossary & Deep Validation
-
-**Goal:** Ensure terminology consistency across the doc corpus and deeply validate the 100 most-referenced functions for signature accuracy, example correctness, and edge case coverage.
-
-**Target features:**
-- Canonical glossary with term enforcement across all RST files
-- Cross-reference frequency ranking to identify the Top-100 functions
-- Deep validation of Top-100 function pages (signature, examples, edge cases)
+| Doc xrefs + blog scraping for frequency | Combines internal docs signal with real-world usage | ✓ Good |
+| N=100 for deep validation | Covers most-used functions without diminishing returns | ✓ Good |
+| Deep validation separate from Finding model | Per-function pass/fail is different from per-line findings | ✓ Good |
 
 ---
-*Last updated: 2026-03-15 after v1.1 milestone start*
+*Last updated: 2026-03-15 after v1.1 milestone*

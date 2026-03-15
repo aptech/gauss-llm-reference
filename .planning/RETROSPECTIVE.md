@@ -44,14 +44,53 @@
 
 ---
 
+## Milestone: v1.1 — Glossary & Deep Validation
+
+**Shipped:** 2026-03-15
+**Phases:** 3 | **Plans:** 6 | **Tasks:** 11
+
+### What Was Built
+- YAML-based canonical glossary with terminology scanner (word-boundary matching, code block skipping)
+- Cross-reference frequency ranker with dual data sources (doc xrefs + blog scraping)
+- Top-N target list export for pipeline integration between commands
+- Deep structural validation (4 checks per function page)
+- AI-assisted example code verification via Claude API
+- CLI deep-validate subcommand with full pipeline orchestration
+
+### What Worked
+- Skipping research for v1.1 saved time — domain was well-understood from v1.0
+- Blog scraping with graceful degradation (`--no-blog`) gave flexibility without fragility
+- Deep validation as a separate module (not Finding-based) was the right call — per-function pass/fail is a different abstraction
+- Stdlib-only blog scraper (urllib + html.parser) avoided new dependencies
+
+### What Was Inefficient
+- ROADMAP.md plan checkboxes got out of sync with actual completion (Phase 5/6 plans shown as unchecked despite summaries existing)
+
+### Patterns Established
+- Dual-signal frequency ranking (weighted combination of internal + external signals)
+- `--output-targets` file as pipeline glue between commands
+- Deep validation module with DeepCheckType enum for extensible check types
+- `--no-ai` flag pattern for fast structural-only runs
+
+### Key Lessons
+- N=100 is a good sweet spot for deep validation — covers high-traffic functions without overwhelming output
+- Blog scraping is useful but noisy — weighting it at 0.3 vs 0.7 for doc xrefs was appropriate
+
+### Cost Observations
+- Model mix: ~80% opus (execution), ~20% sonnet (verification)
+- Sessions: continued from v1.0 in same conversation
+- Notable: All 3 phases completed in ~30 minutes wall time
+
+---
+
 ## Cross-Milestone Trends
 
-| Metric | v1.0 |
-|--------|------|
-| Phases | 4 |
-| Plans | 10 |
-| Tasks | 20 |
-| Source LOC | 2,307 |
-| Test LOC | 2,455 |
-| Test/Source Ratio | 1.06 |
-| Commits | 44 |
+| Metric | v1.0 | v1.1 | Cumulative |
+|--------|------|------|------------|
+| Phases | 4 | 3 | 7 |
+| Plans | 10 | 6 | 16 |
+| Tasks | 20 | 11 | 31 |
+| Source LOC | 2,307 | 1,433 | 3,740 |
+| Test LOC | 2,455 | 1,923 | 4,378 |
+| Test/Source Ratio | 1.06 | 1.34 | 1.17 |
+| Commits | 44 | 24 | 68 |
