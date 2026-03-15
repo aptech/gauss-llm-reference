@@ -21,7 +21,7 @@
 
 - [ ] **Phase 5: Terminology Glossary** - Canonical glossary definition and terminology enforcement across RST corpus
 - [ ] **Phase 6: Cross-Reference Frequency Ranking** - Rank Command Reference functions by reference count and produce top-N target list
-- [ ] **Phase 7: Top-N Deep Validation** - Deep structural and AI-assisted validation of most-referenced function pages
+- [x] **Phase 7: Top-N Deep Validation** - Deep structural and AI-assisted validation of most-referenced function pages (completed 2026-03-15)
 
 ## Phase Details
 
@@ -81,4 +81,4 @@ Plans:
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 5. Terminology Glossary | v1.1 | 1/2 | In progress | - |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
-| 7. Top-N Deep Validation | v1.1 | 1/2 | In progress | - |
+| 7. Top-N Deep Validation | 2/2 | Complete   | 2026-03-15 | - |

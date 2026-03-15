@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Glossary & Deep Validation
-status: in-progress
-stopped_at: Completed 07-01-PLAN.md (deep validation engine)
-last_updated: "2026-03-15T12:03:26Z"
-last_activity: 2026-03-15 -- Completed 07-01 deep validation engine
+status: complete
+stopped_at: Completed 07-02-PLAN.md (AI checker & CLI deep-validate)
+last_updated: "2026-03-15T12:11:22Z"
+last_activity: 2026-03-15 -- Completed 07-02 AI checker & CLI deep-validate
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 6
-  completed_plans: 5
-  percent: 83
+  completed_plans: 6
+  percent: 100
 ---
 
 # Project State
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-15)
 
 **Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** v1.1 Glossary & Deep Validation -- Phase 7 in progress
+**Current focus:** v1.1 Glossary & Deep Validation -- Complete
 
 ## Current Position
 
 Phase: 7 of 7 (Top-N Deep Validation)
-Plan: 1 of 2 complete (Top-N Deep Validation)
-Status: Phase 7 in progress, 07-01 complete
-Last activity: 2026-03-15 -- Completed 07-01 deep validation engine
+Plan: 2 of 2 complete (Top-N Deep Validation)
+Status: v1.1 milestone complete
+Last activity: 2026-03-15 -- Completed 07-02 AI checker & CLI deep-validate
 
-Progress: [████████░░] 83%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11 (v1.0: 10, v1.1: 1)
+- Total plans completed: 12 (v1.0: 10, v1.1: 2)
 - Average duration: --
 - Total execution time: --
 
@@ -61,6 +61,8 @@ Recent decisions affecting current work:
 - [07-01]: Reuse system_message literal_block pattern from SignatureChecker for param extraction
 - [07-01]: Simplified SEEALSO_RE for presence check (not block capture)
 - [07-01]: 20-char threshold for nontrivial examples
+- [07-02]: sys.modules patch for mocking lazy anthropic import in AI checker tests
+- [07-02]: temperature=0 for deterministic AI example verification output
 
 ### Pending Todos
 
@@ -72,6 +74,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-15T12:03:26Z
-Stopped at: Completed 07-01-PLAN.md (deep validation engine)
+Last session: 2026-03-15T12:11:22Z
+Stopped at: Completed 07-02-PLAN.md (AI checker & CLI deep-validate)
 Resume file: None
