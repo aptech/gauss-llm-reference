@@ -92,4 +92,4 @@ Plans:
 | 7. Top-N Deep Validation | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 8. Extended Auto-Fix | v1.2 | 2/2 | Complete | 2026-03-15 |
 | 9. Diff Mode | v1.2 | 1/1 | Complete | 2026-03-15 |
-| 10. Glossary Generation | 1/1 | Complete   | 2026-03-15 | - |
+| 10. Glossary Generation | 1/1 | Complete    | 2026-03-15 | - |
