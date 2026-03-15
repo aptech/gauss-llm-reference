@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Polish & Efficiency
 status: executing
-stopped_at: Completed 08-02-PLAN.md
-last_updated: "2026-03-15T12:46:43.954Z"
-last_activity: 2026-03-15 — Completed 08-02 extended auto-fix CLI wiring
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-03-15T12:52:45Z"
+last_activity: 2026-03-15 — Completed 09-01 diff filtering module + CLI --since wiring
 progress:
   total_phases: 3
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
-  percent: 33
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 3
+  percent: 67
 ---
 
 # Project State
@@ -21,28 +21,29 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-15)
 
 **Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** Phase 8 — Extended Auto-Fix
+**Current focus:** Phase 9 — Diff Mode
 
 ## Current Position
 
-Phase: 8 of 10 (Extended Auto-Fix) — first phase of v1.2 -- COMPLETE
-Plan: 2 of 2 (done)
+Phase: 9 of 10 (Diff Mode) — second phase of v1.2 -- COMPLETE
+Plan: 1 of 1 (done)
 Status: Executing
-Last activity: 2026-03-15 — Completed 08-02 extended auto-fix CLI wiring
+Last activity: 2026-03-15 — Completed 09-01 diff filtering module + CLI --since wiring
 
-Progress: [███░░░░░░░] 33%
+Progress: [██████░░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2 (v1.2)
-- Average duration: 4min
-- Total execution time: 7min
+- Total plans completed: 3 (v1.2)
+- Average duration: 3min
+- Total execution time: 9min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
 | 08 | 01 | 4min | 2 | 5 |
 | 08 | 02 | 3min | 2 | 2 |
+| 09 | 01 | 2min | 2 | 3 |
 
 *Updated after each plan completion*
 
@@ -58,6 +59,9 @@ Progress: [███░░░░░░░] 33%
 - [08-01]: resolve_fixes routes by category to appropriate resolver function
 - [08-02]: Glossary fixes combined into same proposals list as ref fixes for uniform apply_fixes handling
 - [08-02]: doc_names/label_names extracted from env inline in fix command
+- [09-01]: parse_since uses re.fullmatch for SVN rev and strptime for dates
+- [09-01]: SVN diff output parsed by splitting whitespace, taking last element as path
+- [09-01]: Diff module lazy-imported inside scan() to avoid overhead when --since not used
 
 ### Pending Todos
 
@@ -70,5 +74,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-15
-Stopped at: Completed 08-02-PLAN.md
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None

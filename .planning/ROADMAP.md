@@ -62,7 +62,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 09-01-PLAN.md -- Diff filtering module + CLI --since wiring
+- [x] 09-01-PLAN.md -- Diff filtering module + CLI --since wiring
 
 ### Phase 10: Glossary Generation
 **Goal**: Users can auto-generate a draft glossary from corpus analysis instead of manually curating one from scratch
@@ -91,5 +91,5 @@ Plans:
 | 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 7. Top-N Deep Validation | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 8. Extended Auto-Fix | v1.2 | 2/2 | Complete | 2026-03-15 |
-| 9. Diff Mode | v1.2 | 0/1 | Not started | - |
+| 9. Diff Mode | v1.2 | 1/1 | Complete | 2026-03-15 |
 | 10. Glossary Generation | v1.2 | 0/? | Not started | - |

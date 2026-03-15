@@ -7,9 +7,9 @@
 
 ### Diff Mode
 
-- [ ] **DIFF-01**: User can run scan in diff-mode that only checks RST files modified since a given date or SVN revision
-- [ ] **DIFF-02**: Diff-mode produces the same Finding/report output as full scan but only for changed files
-- [ ] **DIFF-03**: CLI scan accepts --since flag (date or SVN revision) to enable diff-mode
+- [x] **DIFF-01**: User can run scan in diff-mode that only checks RST files modified since a given date or SVN revision
+- [x] **DIFF-02**: Diff-mode produces the same Finding/report output as full scan but only for changed files
+- [x] **DIFF-03**: CLI scan accepts --since flag (date or SVN revision) to enable diff-mode
 
 ### Extended Auto-Fix
 
@@ -46,9 +46,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIFF-01 | Phase 9 | Pending |
-| DIFF-02 | Phase 9 | Pending |
-| DIFF-03 | Phase 9 | Pending |
+| DIFF-01 | Phase 9 | Complete |
+| DIFF-02 | Phase 9 | Complete |
+| DIFF-03 | Phase 9 | Complete |
 | EFIX-01 | Phase 8 | Complete |
 | EFIX-02 | Phase 8 | Complete |
 | EFIX-03 | Phase 8 | Complete |
