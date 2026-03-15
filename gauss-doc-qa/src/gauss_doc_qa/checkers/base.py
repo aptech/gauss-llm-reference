@@ -34,3 +34,8 @@ def get_all_fast_checkers() -> list[BaseChecker]:
 def get_all_sphinx_checkers() -> list[BaseChecker]:
     """Return all checkers that require Sphinx environment."""
     return [c for c in _checkers.values() if c.requires_sphinx]
+
+
+def get_all_api_checkers() -> list[BaseChecker]:
+    """Return all checkers that require API access."""
+    return [c for c in _checkers.values() if getattr(c, 'requires_api', False)]

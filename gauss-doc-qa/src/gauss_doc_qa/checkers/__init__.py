@@ -1,3 +1,3 @@
-from gauss_doc_qa.checkers.base import get_checker, get_all_fast_checkers, get_all_sphinx_checkers, register_checker
+from gauss_doc_qa.checkers.base import get_checker, get_all_fast_checkers, get_all_sphinx_checkers, get_all_api_checkers, register_checker
 from gauss_doc_qa.checkers import code_blocks, sections, signatures  # triggers registration
 from gauss_doc_qa.checkers import links, orphans, coverage, seealso  # sphinx checkers

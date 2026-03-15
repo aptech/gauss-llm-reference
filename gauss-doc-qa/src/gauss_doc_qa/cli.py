@@ -1,6 +1,6 @@
 """GAUSS Documentation QA CLI.
 
-Provides ``gauss-qa`` command with ``scan``, ``check-refs``, and ``inventory`` subcommands.
+Provides ``gauss-qa`` command with ``scan``, ``check-refs``, ``review``, and ``inventory`` subcommands.
 """
 
 import click
@@ -266,3 +266,80 @@ def fix(ctx, apply, verify, min_confidence):
         )
     elif verify and not apply:
         click.echo("Skipping --verify (no changes applied).")
+
+
+@cli.command()
+@click.option("--persona", type=click.Choice(["newcomer", "expert", "writer", "all"]),
+              default="all", help="Which persona to run")
+@click.option("--sample", type=int, default=20,
+              help="Number of Command Reference pages to sample for expert persona")
+@click.option("--format", "output_format",
+              type=click.Choice(["terminal", "json", "markdown"]),
+              default="terminal", help="Output format")
+@click.option("--output", "-o", type=click.Path(), default=None,
+              help="Write report to file")
+@click.pass_context
+def review(ctx, persona, sample, output_format, output):
+    """Run AI persona reviews on documentation."""
+    import os
+    import random
+
+    docs_dir = ctx.obj["docs_dir"]
+
+    # Check for API key before doing anything
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        raise click.ClickException(
+            "ANTHROPIC_API_KEY environment variable is required for AI reviews. "
+            "Set it with: export ANTHROPIC_API_KEY=your-key-here"
+        )
+
+    # Lazy imports
+    from gauss_doc_qa.ai.checker import AIPersonaChecker
+    from gauss_doc_qa.ai.personas import PERSONAS
+    from gauss_doc_qa.models import DocType
+
+    # Discover and parse files
+    conf_py = Path(docs_dir) / "conf.py"
+    exclude = load_exclude_patterns(str(conf_py)) if conf_py.exists() else None
+    file_list = scan_docs_dir(docs_dir, exclude)
+
+    # Determine which personas to run
+    if persona == "all":
+        active_personas = list(PERSONAS.values())
+    else:
+        active_personas = [PERSONAS[persona]]
+
+    # Filter files to only those matching persona target doc types
+    target_types = set()
+    for p in active_personas:
+        target_types.update(p.target_doc_types)
+
+    matching_files = [(fp, dt) for fp, dt in file_list if dt in target_types]
+
+    # For expert persona, sample Command Reference pages
+    if DocType.COMMAND_REF in target_types:
+        cmd_ref_files = [(fp, dt) for fp, dt in matching_files if dt == DocType.COMMAND_REF]
+        other_files = [(fp, dt) for fp, dt in matching_files if dt != DocType.COMMAND_REF]
+        if len(cmd_ref_files) > sample:
+            cmd_ref_files = random.sample(cmd_ref_files, sample)
+        matching_files = other_files + cmd_ref_files
+
+    # Parse and review with progress
+    from rich.progress import Progress
+
+    all_findings = []
+
+    with Progress() as progress:
+        task = progress.add_task("Reviewing docs...", total=len(matching_files) * len(active_personas))
+        for filepath, doc_type in matching_files:
+            content = Path(filepath).read_text(encoding="utf-8", errors="replace")
+            parsed = parse_rst(filepath, content, doc_type)
+            for p in active_personas:
+                if doc_type in p.target_doc_types:
+                    from gauss_doc_qa.ai.reviewer import run_persona_review
+                    findings = run_persona_review(parsed, p)
+                    all_findings.extend(findings)
+                progress.advance(task)
+
+    # Render
+    _render_findings(all_findings, output_format, output)
