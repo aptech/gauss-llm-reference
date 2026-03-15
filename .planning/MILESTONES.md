@@ -1,5 +1,17 @@
 # Milestones
 
+## v1.2 Polish & Efficiency (Shipped: 2026-03-15)
+
+**Phases completed:** 3 phases, 4 plans, 8 tasks
+
+**Key accomplishments:**
+1. Extended auto-fix — :doc: and :ref: fuzzy-match resolution alongside existing :func: fixer
+2. Glossary auto-fix — `fix --glossary` replaces non-canonical terms with leaf-text-only safety
+3. Diff-mode — `scan --since` for incremental checks by date or SVN revision
+4. Glossary generation — `glossary-gen` extracts terms from corpus, groups by case/plural variants, outputs curate-ready YAML
+
+---
+
 ## v1.1 Glossary & Deep Validation (Shipped: 2026-03-15)
 
 **Phases completed:** 3 phases, 6 plans, 11 tasks

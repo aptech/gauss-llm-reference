@@ -83,14 +83,44 @@
 
 ---
 
+## Milestone: v1.2 — Polish & Efficiency
+
+**Shipped:** 2026-03-15
+**Phases:** 3 | **Plans:** 4 | **Tasks:** 8
+
+### What Was Built
+- Extended auto-fix for :doc: and :ref: references (fuzzy matching against env.all_docs and std domain labels)
+- Glossary auto-fix via `fix --glossary` with leaf-text-only safety
+- Diff-mode incremental scanning via `scan --since` (date or SVN revision)
+- Glossary auto-generation from corpus term frequency analysis
+
+### What Worked
+- Auto-chaining plan → execute → verify without manual intervention (fixed after user feedback)
+- Single-plan phases (9, 10) were efficient — no artificial splitting needed
+- Reusing existing fixer infrastructure (applier, is_safe_to_fix) for new fix types was seamless
+
+### What Was Inefficient
+- Should have auto-chained from the start instead of waiting for user to ask
+
+### Patterns Established
+- `resolve_doc_ref` / `resolve_ref_ref` follow identical pattern to `resolve_func_ref` — copy-and-adapt
+- `--since` flag with dual-mode parsing (date vs SVN revision prefix `r`)
+- Term extraction via docutils AST visitor with `_is_inside_literal_block` guard
+
+### Key Lessons
+- User wants full autonomy — "YOLO" means run everything without stopping
+- Polish milestones are fast — most work is extending proven patterns
+
+---
+
 ## Cross-Milestone Trends
 
-| Metric | v1.0 | v1.1 | Cumulative |
-|--------|------|------|------------|
-| Phases | 4 | 3 | 7 |
-| Plans | 10 | 6 | 16 |
-| Tasks | 20 | 11 | 31 |
-| Source LOC | 2,307 | 1,433 | 3,740 |
-| Test LOC | 2,455 | 1,923 | 4,378 |
-| Test/Source Ratio | 1.06 | 1.34 | 1.17 |
-| Commits | 44 | 24 | 68 |
+| Metric | v1.0 | v1.1 | v1.2 | Cumulative |
+|--------|------|------|------|------------|
+| Phases | 4 | 3 | 3 | 10 |
+| Plans | 10 | 6 | 4 | 20 |
+| Tasks | 20 | 11 | 8 | 39 |
+| Source LOC | 2,307 | 1,433 | ~760 | ~4,500 |
+| Test LOC | 2,455 | 1,923 | ~820 | ~5,200 |
+| Test/Source Ratio | 1.06 | 1.34 | 1.08 | 1.16 |
+| Commits | 44 | 24 | ~16 | ~84 |
