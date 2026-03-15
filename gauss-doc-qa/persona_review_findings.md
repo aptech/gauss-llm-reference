@@ -1,80 +1,95 @@
 # Persona Review Findings — Top 300 Command Reference Pages
 
 Generated 2026-03-15 from open-ended confusion review across 4 personas.
+Reviewed by two skeptical experienced GAUSS users. Verdicts noted.
 
-## Critical Bugs (factual errors that mislead users)
+## Critical Bugs (all verified CORRECT by reviewers)
 
-| File | Bug | Severity |
-|------|-----|----------|
-| stdc.rst | Formula shows `s * (n-1)/n` but should be `s * sqrt((n-1)/n)` | HIGH — wrong math |
-| cdfmvte.rst | Param `x` described as "Lower limits" but it's upper limits | HIGH — inverted meaning |
-| sqpsolve.rst | `_sqp_IneqProc` says "equality" should be "inequality"; example has `p[1]*[2]` missing `p` | HIGH — won't run |
-| dttoutc.rst | Remarks say "July 15" but number shows 0703 (July 3) | HIGH — wrong date |
-| scalmiss.rst | Example has `s = s +s umc(y)` should be `s = s + sumc(y)` | HIGH — won't run |
-| intsimp.rst | Example uses `xl` but variable is named `xlims` | HIGH — won't run |
-| chol.rst | Trap table shows trap 0 and trap 1 both "terminate" — trap 1 should return error code | HIGH — wrong behavior |
-| polymake.rst | Shows `11^x` should be `11x` (i.e. `11*x`) | MEDIUM — wrong math |
-| scalerr.rst | Example uses `x` without defining it | MEDIUM — won't run |
-| plotsave.rst | Default units says "px" in one place, "cm" in another; example .png vs described .pdf | MEDIUM — contradictory |
-| plotcanvassize.rst | Remarks call function `plotSetCanvas` (wrong name, actual is `plotCanvasSize`) | MEDIUM |
-| glm.rst | Section header says "SAS sas7bdat" but loads `detroit.dta` (Stata) | MEDIUM — misleading |
-| getHeaders.rst | Same "SAS dataset" mislabel with detroit.dta | MEDIUM — misleading |
-| dtdayofweek.rst | Example comment says "Get quarters" but code gets day of week | MEDIUM — copy-paste |
-| dtdayofyear.rst | Output comment says "Print corresponding years" but prints day of year | MEDIUM — copy-paste |
-| h5read.rst | Comment says "4 rows and 3 columns" but code sets r=3; c=2 | MEDIUM |
-| strindx.rst | Example calls `strrindx` (reverse) on a `strindx` page | MEDIUM — wrong function |
-| timeDiffDT.rst | Return type says "Scalar" but returns NxK matching input; comment says "18 months" but computes minutes | MEDIUM |
-| dataopen.rst | Remarks contain `glm(...)` call — copy-paste from another page | MEDIUM |
-| inthp2/3/4.rst | All reference `inthp1` in DS description (copy-paste) | LOW |
-| lapgeig.rst | seealso references itself (circular) | LOW |
-| getorders.rst | Stray "sss" in Purpose | LOW |
-| cdfbinomialinv.rst | Missing semicolon in example | LOW |
-| moment.rst | Output references undefined `b_est`, variable is `b` | MEDIUM |
+| File | Bug | Status |
+|------|-----|--------|
+| stdc.rst | Formula shows `s * (n-1)/n` but should be `s * sqrt((n-1)/n)` | FIXED |
+| cdfmvte.rst | Param `x` described as "Lower limits" but it's upper limits | FIXED |
+| sqpsolve.rst | `_sqp_IneqProc` says "equality" should be "inequality"; `p[1]*[2]` missing `p` | FIXED |
+| dttoutc.rst | Remarks say "July 15" but number shows 0703 (July 3) | FIXED |
+| scalmiss.rst | Example `s = s +s umc(y)` should be `s = s + sumc(y)` | FIXED |
+| intsimp.rst | Example uses `xl` but variable is named `xlims` | FIXED |
+| chol.rst | Trap table shows trap 1 "terminate" — should return error code 10 | FIXED |
+| polymake.rst | Shows `11^x` should be `11x` | FIXED |
+| scalerr.rst | Example uses `x` without defining it | FIXED |
+| plotsave.rst | Default units contradicts (px vs cm); example .png vs described .pdf | FIXED |
+| plotcanvassize.rst | Remarks call it `plotSetCanvas` (wrong name) | FIXED |
+| glm.rst | Section says "SAS sas7bdat" but loads detroit.dta (Stata) | FIXED |
+| getHeaders.rst | Same SAS/Stata mislabel | FIXED |
+| dtdayofweek.rst | Comment says "Get quarters" (copy-paste from another page) | FIXED |
+| dtdayofyear.rst | Comment says "Print years" but prints day of year | FIXED |
+| h5read.rst | Comment says "4 rows 3 cols" but code sets r=3; c=2 | FIXED |
+| strindx.rst | Example calls `strrindx` (wrong function) | FIXED |
+| timeDiffDT.rst | Return type says "Scalar" but returns NxK; comment says "18 months" but computes minutes | FIXED |
+| dataopen.rst | Remarks contain `glm(...)` copy-paste from another page | FIXED |
+| inthp2/3/4.rst | All reference `inthp1` in DS description (copy-paste) | FIXED |
+| lapgeig.rst | seealso references itself | FIXED |
+| getorders.rst | Stray "sss" in Purpose | FIXED |
+| cdfbinomialinv.rst | Missing semicolon in example | FIXED |
 
-## Significant Confusion Points (not bugs, but users would stumble)
+Previously fixed (commits a2a90a40, e5d5c897):
+- pdfcauchy.rst `:rtypep:` typo, seqaseqm.rst missing 256, loadd.rst SAS mislabel,
+  pdfweibull.rst incomplete type, bessely.rst undefined `n`, fglscontrolcreate.rst copy-paste,
+  knnclassify.rst param mismatch, movingaveexpwgt.rst impossible inequality, pacf.rst missing arg,
+  pdftruncnorm.rst lower/upper swap, recservar.rst AR(2)/VAR(1), resetsourcepaths.rst false return,
+  ridgecpredict.rst :return vs :param, toeplitz.rst wrong output, trigamma.rst rewrite
 
-### Dangerous silent behaviors
-- **stof.rst**: `stof("")` returns 0, not missing — silent data corruption risk for empty strings
-- **strtof.rst**: `"1.2 1.9"` silently becomes complex `1.2+1.9i` — wrong results with no error
-- **error.rst**: `error(0)` equals missing value code — cannot distinguish error 0 from missing
-- **log.rst**: Computes log base 10, not ln — opposite of R, Python, MATLAB, Stata
-- **fft.rst**: Scales by 1/N unlike MATLAB — results differ by factor of N
+## Validated Confusion Points (reviewers agree these are real)
 
-### Parameter/naming confusion
-- **reclassifyCuts.rst**: `close_right=1` makes right side OPEN — name is opposite of behavior
-- **substute.rst**: Function name misspelled (missing "i")
-- **setcollabels.rst**: Parameter descriptions appear swapped between `labels` and `columns`
-- **cdftnc.rst**: `nonc` param is square root of noncentrality, not noncentrality itself
-- **dftype.rst**: "date" conversion uses POSIX seconds, not DT scalar format — easy to confuse
-- **recserar.rst**: Signature uses `rho` but Remarks use `a` for same parameter
-- **between.rst**: Param `left` in Format but `x` in description (already fixed)
+These are not bugs but genuine traps worth documenting:
 
-### Misleading examples
-- **olsqr.rst**: Example uses exact system (0 df) — not a real regression use case
-- **rndcreatestate.rst**: Sobol `rndCreateState("sobol", 42)` — 42 is dimension not seed (overloaded)
-- **intgrat2/3.rst**: First row is UPPER limit — reverse of mathematical convention
-- **cdfbinomial.rst**: Output shows probability vs percentage inconsistency
-- **plotScatter.rst**: Example 2 axis labels contradict the column order in function call
-- **unique.rst**: On matrices, flattens to unique elements (not unique rows like R)
+| Issue | What to do |
+|-------|-----------|
+| `stof("")` returns 0, not missing | Add warning note — silent data corruption risk for empty strings |
+| `strtof "1.2 1.9"` silently becomes complex | Add warning note — wrong results with no error for space-separated numbers |
+| `reclassifyCuts`: `close_right=1` makes right side OPEN | Add clarifying note — parameter name is opposite of behavior |
+| `momentd` adds constant column via `__con=1` global | Add prominent note — function silently changes output dimensions |
+| `unique` flattens matrices to unique elements | Add remark: "operates element-wise, not unique rows" |
+| `rndCreateState` Sobol overload: 2nd param is dimension not seed | Add clear note on the Sobol/Niederreiter case |
+| ~15 pages say "SAS dataset" but load .dta (Stata) | Batch fix section headers |
+| `trap` mechanism needs cross-references | Add brief explanation or link on each page that mentions trap |
+| `recserar`: signature uses `rho`, Remarks use `a` | Fix param name consistency |
+| `setcollabels`: parameter descriptions appear swapped | Verify against implementation and fix |
+| `log()` computes base-10, not ln | Already fixed — added remark pointing to `ln()` |
+| `plotScatter` Example 2: axis labels contradict column order | Fix the example |
+| `olsqr` example uses exact system (0 df) | Replace with overdetermined example |
+| `cdftnc`: `nonc` is sqrt of noncentrality parameter | Add clarifying note |
 
-### Missing critical warnings
-- **dummy.rst**: Name suggests factor indicators but actually does binning — R/Stata users will be confused
-- **delif.rst**: Opposite of R's logical subsetting (`delif` removes TRUE rows, R keeps them)
-- **minc.rst**: Returns column minimums (not scalar like R's `min()`) — `c` suffix meaning unexplained
-- **sumc.rst**: Returns Kx1 column vector, not row vector — dimension flip trap
-- **contains.rst**: Returns scalar (any match), not element-wise like R's `%in%`
-- **ols.rst**: Residuals off by default (need `_olsres=1`) — surprising for R/Stata users
-- **momentd.rst**: Silently adds constant column via `__con=1` global
+## Rejected / Overstated (reviewers say these are NOT problems)
 
-### Date format confusion
-- **dttostr.rst vs posixtostrc.rst**: Two incompatible format systems (MO/DD/YYYY vs %m/%d/%Y)
-- **datestr.rst**: Returns 2-digit year with no ambiguity warning
-- **plotTS.rst**: `200504` could be April 2005 or May 4, 2005
-- **ethsec.rst**: "Hundredths of a second" — unit no other language uses
+GAUSS has its own conventions. These are not documentation bugs:
 
-## Systematic Issues
+| Claim | Why it's fine |
+|-------|---------------|
+| `sumc` returns Kx1 column vector | Fundamental GAUSS convention — `c` suffix = column-wise |
+| `minc` not like R's `min()` | Same convention, users learn this on day one |
+| `delif` removes TRUE rows (opposite of R) | "Delete if" is clear English. `selif` keeps TRUE rows. The pair is self-explanatory |
+| `dummy` does binning not indicators | Purpose line is clear. GAUSS ≠ R/Stata |
+| `contains` returns scalar not element-wise | Return type is documented |
+| `ols` residuals off by default | Documented behavior. Use `olsmt` for modern code |
+| `ethsec` hundredths of a second | Standard unit, documented |
+| `datestr` 2-digit year | Standard format, users know what they're getting |
+| FFT 1/N scaling differs from MATLAB | Documented in Remarks. Every FFT library differs |
+| `error(0)` equals missing value | By design, well-understood by experienced users |
+| GML library needs paid-package note | Website covers licensing, not per-function-page responsibility |
+| DT vs POSIX date format differences | Each system documented on its own pages |
+| `substute` function name misspelling | Historical name since 1990s — cannot change without breaking code |
+| `intgrat2/3` upper limit first | GAUSS convention, documented on the page |
+| `recserar` signature/Remarks use different names | Standard GAUSS doc practice (Reviewer #1 says OVERSTATED; keeping as valid per Reviewer #2) |
 
-- ~15 pages reference "SAS dataset" but load .dta (Stata) files
-- GML library functions don't note it's a separate paid package
-- DT scalar format vs POSIX dates vs dataframe dates — no cross-reference between the three systems
-- `trap` mechanism explained only on scalerr.rst, referenced everywhere
+## Fixes Applied — Unnecessary (reviewer feedback)
+
+Two fixes from the binary review were flagged as unnecessary:
+- `between.rst` case change (`x` → `X`) — GAUSS is case-insensitive
+- `annotationsetlinepen.rst` `&` prefix — convention is `&` only in signature line, not `:param:` directive
+
+These are cosmetic and do no harm, but weren't needed.
+
+## Examples Added — All Verified
+
+30 of ~200 added examples were spot-checked by Reviewer #2. All 30 rated GOOD:
+correct GAUSS code, verified output, appropriate scope. Zero incorrect, zero misleading.
