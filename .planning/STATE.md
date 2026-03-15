@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Glossary & Deep Validation
-status: completed
-stopped_at: Completed 06-02-PLAN.md (freq CLI integration)
-last_updated: "2026-03-15T11:46:43.508Z"
-last_activity: 2026-03-15 -- Completed 06-02 freq CLI integration
+status: in-progress
+stopped_at: Completed 07-01-PLAN.md (deep validation engine)
+last_updated: "2026-03-15T12:03:26Z"
+last_activity: 2026-03-15 -- Completed 07-01 deep validation engine
 progress:
   total_phases: 3
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 6
+  completed_plans: 5
+  percent: 83
 ---
 
 # Project State
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-15)
 
 **Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** v1.1 Glossary & Deep Validation -- Phase 6 complete
+**Current focus:** v1.1 Glossary & Deep Validation -- Phase 7 in progress
 
 ## Current Position
 
-Phase: 6 of 7 (Cross-Reference Frequency Ranking)
-Plan: 2 of 2 complete (Cross-Reference Frequency Ranking)
-Status: Phase 6 complete, ready for Phase 7
-Last activity: 2026-03-15 -- Completed 06-02 freq CLI integration
+Phase: 7 of 7 (Top-N Deep Validation)
+Plan: 1 of 2 complete (Top-N Deep Validation)
+Status: Phase 7 in progress, 07-01 complete
+Last activity: 2026-03-15 -- Completed 07-01 deep validation engine
 
-Progress: [██████████] 100%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10 (v1.0)
+- Total plans completed: 11 (v1.0: 10, v1.1: 1)
 - Average duration: --
 - Total execution time: --
 
@@ -58,6 +58,9 @@ Recent decisions affecting current work:
 - [06-01]: Default 0.7/0.3 weights for doc refs vs blog mentions (doc signal is primary)
 - [Phase 06]: Stdlib-only HTTP for blog scraper, 0.7/0.3 doc/blog weights, ROLE_REF_RE reuse from links.py
 - [Phase 06]: sys.modules mock for sphinx_env to enable testing without Sphinx installed
+- [07-01]: Reuse system_message literal_block pattern from SignatureChecker for param extraction
+- [07-01]: Simplified SEEALSO_RE for presence check (not block capture)
+- [07-01]: 20-char threshold for nontrivial examples
 
 ### Pending Todos
 
@@ -69,6 +72,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-15T11:43:23.557Z
-Stopped at: Completed 06-02-PLAN.md (freq CLI integration)
+Last session: 2026-03-15T12:03:26Z
+Stopped at: Completed 07-01-PLAN.md (deep validation engine)
 Resume file: None

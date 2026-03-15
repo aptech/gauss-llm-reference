@@ -66,7 +66,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01-PLAN.md -- Deep validation models, structural page checker (4 checks), and report formatters
+- [x] 07-01-PLAN.md -- Deep validation models, structural page checker (4 checks), and report formatters
 - [ ] 07-02-PLAN.md -- AI-assisted example verification and CLI deep-validate subcommand
 
 ## Progress
@@ -81,4 +81,4 @@ Plans:
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 5. Terminology Glossary | v1.1 | 1/2 | In progress | - |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
-| 7. Top-N Deep Validation | v1.1 | 0/2 | Not started | - |
+| 7. Top-N Deep Validation | v1.1 | 1/2 | In progress | - |

@@ -20,9 +20,9 @@
 
 ### Deep Validation
 
-- [ ] **DEEP-01**: Deep page validator checks top-N function pages for: complete signature (all params documented), non-trivial examples (not just syntax), return type documented, See Also present
+- [x] **DEEP-01**: Deep page validator checks top-N function pages for: complete signature (all params documented), non-trivial examples (not just syntax), return type documented, See Also present
 - [ ] **DEEP-02**: AI-assisted validation uses Claude to verify example code correctness and flag suspicious patterns (wrong function names, impossible parameter combinations, misleading comments)
-- [ ] **DEEP-03**: Validation report shows per-function pass/fail status across all deep checks with drill-down details
+- [x] **DEEP-03**: Validation report shows per-function pass/fail status across all deep checks with drill-down details
 - [ ] **DEEP-04**: CLI deep-validate subcommand runs frequency ranking + deep validation pipeline with --top-n flag (default 100)
 
 ## Future Requirements (v1.2+)
@@ -53,9 +53,9 @@
 | FREQ-01 | Phase 6 | Complete |
 | FREQ-02 | Phase 6 | Complete |
 | FREQ-03 | Phase 6 | Complete |
-| DEEP-01 | Phase 7 | Pending |
+| DEEP-01 | Phase 7 | Complete |
 | DEEP-02 | Phase 7 | Pending |
-| DEEP-03 | Phase 7 | Pending |
+| DEEP-03 | Phase 7 | Complete |
 | DEEP-04 | Phase 7 | Pending |
 
 **Coverage:**
