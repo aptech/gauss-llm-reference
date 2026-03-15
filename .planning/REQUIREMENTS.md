@@ -38,7 +38,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AIRV-02**: New GAUSS user persona reviews Getting Started and tutorials — "Where did you get confused?"
 - [x] **AIRV-03**: Experienced developer persona reviews Command Reference spot-check — "Is the signature, return type, and example correct?"
 - [x] **AIRV-04**: Technical writer persona reviews User Guide — "Are concepts introduced before used? Undefined terms?"
-- [ ] **AIRV-05**: Persona review findings integrate into the same Finding/report system as structural checks
+- [x] **AIRV-05**: Persona review findings integrate into the same Finding/report system as structural checks
 
 ### Reporting
 
@@ -105,7 +105,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | AIRV-02 | Phase 4 | Complete |
 | AIRV-03 | Phase 4 | Complete |
 | AIRV-04 | Phase 4 | Complete |
-| AIRV-05 | Phase 4 | Pending |
+| AIRV-05 | Phase 4 | Complete |
 | REPT-01 | Phase 1 | Complete |
 | REPT-02 | Phase 1 | Complete |
 | REPT-03 | Phase 1 | Complete |
