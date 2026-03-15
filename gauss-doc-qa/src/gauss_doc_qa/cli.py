@@ -283,6 +283,89 @@ def fix(ctx, apply, verify, min_confidence):
 
 
 @cli.command()
+@click.option("--top-n", type=int, default=None,
+              help="Show only top N functions (default: show all)")
+@click.option("--format", "output_format",
+              type=click.Choice(["terminal", "json", "markdown"]),
+              default="terminal", help="Output format")
+@click.option("--output", "-o", type=click.Path(), default=None,
+              help="Write report to file instead of stdout")
+@click.option("--output-targets", type=click.Path(), default=None,
+              help="Write top-N function names to file (one per line) for deep validation")
+@click.option("--no-blog", is_flag=True, default=False,
+              help="Skip blog scraping (offline/fast mode)")
+@click.option("--doc-weight", type=float, default=0.7,
+              help="Weight for doc cross-reference count (default: 0.7)")
+@click.option("--blog-weight", type=float, default=0.3,
+              help="Weight for blog mention count (default: 0.3)")
+@click.pass_context
+def freq(ctx, top_n, output_format, output, output_targets, no_blog, doc_weight, blog_weight):
+    """Rank Command Reference functions by cross-reference frequency."""
+    docs_dir = ctx.obj["docs_dir"]
+
+    # Load Sphinx env (lazy import, same as check-refs)
+    from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
+    click.echo("Loading Sphinx environment...")
+    env = load_sphinx_env(docs_dir)
+    click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
+
+    # Count doc cross-references
+    from gauss_doc_qa.frequency.counter import count_crossrefs
+    click.echo("Counting cross-references...")
+    doc_ref_counts = count_crossrefs(docs_dir, env)
+
+    # Scrape blog mentions (unless --no-blog)
+    blog_mention_counts: dict[str, int] = {}
+    if not no_blog:
+        from gauss_doc_qa.frequency.blog_scraper import scrape_blog_mentions
+        known_functions = set(env.domaindata.get("gauss", {}).get("objects", {}).keys())
+        click.echo(f"Scraping blog mentions for {len(known_functions)} functions...")
+        blog_mention_counts = scrape_blog_mentions(known_functions)
+        click.echo(f"Found blog mentions for {len([v for v in blog_mention_counts.values() if v > 0])} functions")
+    else:
+        click.echo("Skipping blog scraping (--no-blog)")
+
+    # Rank functions
+    from gauss_doc_qa.frequency.scorer import rank_functions
+    rankings = rank_functions(env, doc_ref_counts, blog_mention_counts, doc_weight, blog_weight)
+    click.echo(f"Ranked {len(rankings)} functions")
+
+    # Apply top_n default of 100 for --output-targets if top_n not explicitly set
+    targets_n = top_n if top_n is not None else 100
+
+    # Write target list file if requested
+    if output_targets:
+        target_names = [r.name for r in rankings[:targets_n]]
+        Path(output_targets).write_text("\n".join(target_names) + "\n")
+        click.echo(f"Wrote {len(target_names)} target function names to {output_targets}")
+
+    # Render report
+    from gauss_doc_qa.frequency.report import (
+        render_frequency_terminal, render_frequency_json, render_frequency_markdown
+    )
+
+    if output_format == "json":
+        report_text = render_frequency_json(rankings, top_n)
+        if output:
+            Path(output).write_text(report_text)
+        else:
+            click.echo(report_text)
+    elif output_format == "markdown":
+        report_text = render_frequency_markdown(rankings, top_n)
+        if output:
+            Path(output).write_text(report_text)
+        else:
+            click.echo(report_text)
+    else:
+        if output:
+            with open(output, "w") as f:
+                console = Console(file=f, force_terminal=False)
+                render_frequency_terminal(rankings, top_n, console)
+        else:
+            render_frequency_terminal(rankings, top_n)
+
+
+@cli.command()
 @click.option("--persona", type=click.Choice(["newcomer", "expert", "writer", "all"]),
               default="all", help="Which persona to run")
 @click.option("--sample", type=int, default=20,
