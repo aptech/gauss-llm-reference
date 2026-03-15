@@ -34,10 +34,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### AI Reviews
 
-- [ ] **AIRV-01**: Batch AI persona reviews via Claude API with structured binary rubrics (not free-text)
-- [ ] **AIRV-02**: New GAUSS user persona reviews Getting Started and tutorials — "Where did you get confused?"
-- [ ] **AIRV-03**: Experienced developer persona reviews Command Reference spot-check — "Is the signature, return type, and example correct?"
-- [ ] **AIRV-04**: Technical writer persona reviews User Guide — "Are concepts introduced before used? Undefined terms?"
+- [x] **AIRV-01**: Batch AI persona reviews via Claude API with structured binary rubrics (not free-text)
+- [x] **AIRV-02**: New GAUSS user persona reviews Getting Started and tutorials — "Where did you get confused?"
+- [x] **AIRV-03**: Experienced developer persona reviews Command Reference spot-check — "Is the signature, return type, and example correct?"
+- [x] **AIRV-04**: Technical writer persona reviews User Guide — "Are concepts introduced before used? Undefined terms?"
 - [ ] **AIRV-05**: Persona review findings integrate into the same Finding/report system as structural checks
 
 ### Reporting
@@ -101,10 +101,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | FIXR-02 | Phase 3 | Complete |
 | FIXR-03 | Phase 3 | Complete |
 | FIXR-04 | Phase 3 | Complete |
-| AIRV-01 | Phase 4 | Pending |
-| AIRV-02 | Phase 4 | Pending |
-| AIRV-03 | Phase 4 | Pending |
-| AIRV-04 | Phase 4 | Pending |
+| AIRV-01 | Phase 4 | Complete |
+| AIRV-02 | Phase 4 | Complete |
+| AIRV-03 | Phase 4 | Complete |
+| AIRV-04 | Phase 4 | Complete |
 | AIRV-05 | Phase 4 | Pending |
 | REPT-01 | Phase 1 | Complete |
 | REPT-02 | Phase 1 | Complete |
