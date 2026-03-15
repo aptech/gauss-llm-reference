@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 02-03-PLAN.md (CLI Integration)
-last_updated: "2026-03-15T03:10:41.759Z"
-last_activity: 2026-03-15 — Completed 02-03 (CLI Integration)
+status: in-progress
+stopped_at: Completed 03-01-PLAN.md (Core Fixer Module)
+last_updated: "2026-03-15T03:36:57.034Z"
+last_activity: 2026-03-15 — Completed 03-01 (Core Fixer Module)
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 8
+  completed_plans: 7
   percent: 100
 ---
 
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-14)
 
 **Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** Phase 2 complete - Cross-Reference Validation
+**Current focus:** Phase 3 in progress - Auto-Fix Engine
 
 ## Current Position
 
-Phase: 2 of 4 (Cross-Reference Validation) -- COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase Complete
-Last activity: 2026-03-15 — Completed 02-03 (CLI Integration)
+Phase: 3 of 4 (Auto-Fix Engine)
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-03-15 — Completed 03-01 (Core Fixer Module)
 
-Progress: [██████████] 100%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 3.3 min
-- Total execution time: 0.3 hours
+- Total plans completed: 7
+- Average duration: 3.4 min
+- Total execution time: 0.4 hours
 
 **By Phase:**
 
@@ -45,9 +45,10 @@ Progress: [██████████] 100%
 |-------|-------|-------|----------|
 | 01 | 3 | 12 min | 4 min |
 | 02 | 3 | 8 min | 2.7 min |
+| 03 | 1 | 4 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (3 min), 01-03 (2 min), 02-01 (2 min), 02-02 (3 min), 02-03 (3 min)
+- Last 5 plans: 01-03 (2 min), 02-01 (2 min), 02-02 (3 min), 02-03 (3 min), 03-01 (4 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase 02]: Corpus-level checkers use _computed flag + _reset() for testing + per-file filtering
 - [02-03]: Lazy import for load_sphinx_env to keep CLI usable without sphinx installed
 - [02-03]: Factored _render_findings() helper to share rendering between scan and check-refs
+- [03-01]: Used difflib.get_close_matches with casefolded names for case-insensitive fuzzy matching
+- [03-01]: Ambiguity threshold of 0.05 score gap between top two matches
+- [03-01]: Sphinx import behind try/except with _get_sphinx_cls() accessor for testability without sphinx installed
 
 ### Pending Todos
 
@@ -83,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-15T03:05:18Z
-Stopped at: Completed 02-03-PLAN.md (CLI Integration)
+Last session: 2026-03-15T03:32:02Z
+Stopped at: Completed 03-01-PLAN.md (Core Fixer Module)
 Resume file: None

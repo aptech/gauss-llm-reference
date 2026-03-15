@@ -27,10 +27,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Auto-Fix
 
-- [ ] **FIXR-01**: Auto-fix for broken internal links where target can be unambiguously determined
+- [x] **FIXR-01**: Auto-fix for broken internal links where target can be unambiguously determined
 - [ ] **FIXR-02**: Auto-fix runs in dry-run mode by default, showing proposed changes without applying
-- [ ] **FIXR-03**: Auto-fix only modifies leaf text nodes, never tables or directive structures
-- [ ] **FIXR-04**: Sphinx build verification available after auto-fix to confirm no RST corruption
+- [x] **FIXR-03**: Auto-fix only modifies leaf text nodes, never tables or directive structures
+- [x] **FIXR-04**: Sphinx build verification available after auto-fix to confirm no RST corruption
 
 ### AI Reviews
 
@@ -97,10 +97,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | STRC-06 | Phase 1 | Complete |
 | STRC-07 | Phase 2 | Complete |
 | STRC-08 | Phase 2 | Complete |
-| FIXR-01 | Phase 3 | Pending |
+| FIXR-01 | Phase 3 | Complete |
 | FIXR-02 | Phase 3 | Pending |
-| FIXR-03 | Phase 3 | Pending |
-| FIXR-04 | Phase 3 | Pending |
+| FIXR-03 | Phase 3 | Complete |
+| FIXR-04 | Phase 3 | Complete |
 | AIRV-01 | Phase 4 | Pending |
 | AIRV-02 | Phase 4 | Pending |
 | AIRV-03 | Phase 4 | Pending |
