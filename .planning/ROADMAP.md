@@ -77,11 +77,11 @@ Plans:
   3. Experienced developer persona spot-checks Command Reference pages for signature, return type, and example correctness
   4. Technical writer persona reviews User Guide for undefined terms and concepts used before introduction
   5. AI review findings appear in the same Finding/report pipeline as structural checks (same format, same severity levels, same output modes)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — Persona definitions, Pydantic schemas, reviewer engine, unit tests with mocked API
+- [ ] 04-02-PLAN.md — AI checker registry integration, CLI review subcommand, integration tests
 
 ## Progress
 
