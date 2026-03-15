@@ -61,10 +61,11 @@ Plans:
   2. When applied, auto-fix corrects broken internal links where the target is unambiguously determinable
   3. Auto-fix only modifies leaf text nodes -- tables, directive structures, and code blocks are never touched
   4. After auto-fix is applied, a Sphinx build verification confirms no RST corruption was introduced
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Fixer module: models, resolver (fuzzy matching), applier (leaf-text safety), Sphinx verifier
+- [ ] 03-02-PLAN.md — CLI fix subcommand with dry-run/apply/verify, integration tests
 
 ### Phase 4: AI Persona Reviews
 **Goal**: User can run batch AI reviews that evaluate docs from distinct audience perspectives with structured, actionable findings
@@ -91,5 +92,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Foundation and Structural Checks | 3/3 | Complete | 2026-03-14 |
 | 2. Cross-Reference Validation | 3/3 | Complete   | 2026-03-15 |
-| 3. Auto-Fix | 0/1 | Not started | - |
+| 3. Auto-Fix | 0/2 | Not started | - |
 | 4. AI Persona Reviews | 0/2 | Not started | - |
