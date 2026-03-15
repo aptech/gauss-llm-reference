@@ -30,6 +30,18 @@ class SectionChecker(BaseChecker):
 
         present = set(parsed_doc.sections)
         for section in required:
+            # Accept both "example" and "examples" variants
+            if section == "examples":
+                if "examples" not in present and "example" not in present:
+                    findings.append(Finding(
+                        file=parsed_doc.path,
+                        line=None,
+                        severity=Severity.WARNING,
+                        category="missing_section",
+                        checker="sections",
+                        message=f"Missing required section: {section.title()}",
+                    ))
+                continue
             if section not in present:
                 findings.append(Finding(
                     file=parsed_doc.path,
