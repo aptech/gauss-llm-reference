@@ -41,17 +41,18 @@ Plans:
 - [ ] 05-02-PLAN.md -- CLI --glossary integration and end-to-end report tests
 
 ### Phase 6: Cross-Reference Frequency Ranking
-**Goal**: Users can identify the most-referenced functions in the documentation to prioritize validation effort
+**Goal**: Users can identify the most-referenced functions in the documentation to prioritize validation effort, using both doc cross-references and blog post mentions as signals
 **Depends on**: Phase 4 (v1.0 complete -- uses Sphinx cross-reference data)
 **Requirements**: FREQ-01, FREQ-02, FREQ-03
 **Success Criteria** (what must be TRUE):
   1. User can run frequency ranking and see every Command Reference function ranked by cross-reference count
   2. Frequency report is available in terminal, JSON, and Markdown formats
   3. User can specify top-N (default 100) to produce a target list file consumed by deep validation
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
+- [ ] 06-01-PLAN.md -- Frequency models, cross-ref counter, blog scraper, scorer, report formatters, and unit tests
+- [ ] 06-02-PLAN.md -- CLI freq subcommand with --top-n, --output-targets, --no-blog options and CLI integration tests
 
 ### Phase 7: Top-N Deep Validation
 **Goal**: Users can deeply validate the most important function pages for signature completeness, example quality, and documentation accuracy
@@ -79,5 +80,5 @@ Plans:
 | 3. Auto-Fix | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 5. Terminology Glossary | v1.1 | 1/2 | In progress | - |
-| 6. Cross-Reference Frequency Ranking | v1.1 | 0/? | Not started | - |
+| 6. Cross-Reference Frequency Ranking | v1.1 | 0/2 | Not started | - |
 | 7. Top-N Deep Validation | v1.1 | 0/? | Not started | - |
