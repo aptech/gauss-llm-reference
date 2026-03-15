@@ -29,3 +29,8 @@ def get_checker(name: str) -> BaseChecker:
 def get_all_fast_checkers() -> list[BaseChecker]:
     """Return all checkers that do not require Sphinx."""
     return [c for c in _checkers.values() if not c.requires_sphinx]
+
+
+def get_all_sphinx_checkers() -> list[BaseChecker]:
+    """Return all checkers that require Sphinx environment."""
+    return [c for c in _checkers.values() if c.requires_sphinx]

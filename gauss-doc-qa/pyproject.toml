@@ -6,6 +6,9 @@ dependencies = [
     "docutils>=0.22",
     "rich>=14.0",
     "click>=8.3",
+    "sphinx>=9.0",
+    "sphinx-design",
+    "pydata-sphinx-theme",
 ]
 
 [project.optional-dependencies]
