@@ -66,9 +66,16 @@ def scan_docs_dir(
 
     results: list[tuple[str, DocType]] = []
 
-    for root, _dirs, files in os.walk(docs_dir):
+    for root, dirs, files in os.walk(docs_dir):
+        # Skip _-prefixed directories (Sphinx convention: _build, _static, _templates, _themes)
+        dirs[:] = [d for d in dirs if not d.startswith("_")]
+
         for filename in files:
             if not filename.endswith(".rst"):
+                continue
+
+            # Skip _-prefixed files (internal Sphinx files)
+            if filename.startswith("_"):
                 continue
 
             # Check exclude patterns against filename only

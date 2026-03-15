@@ -20,17 +20,24 @@ _OPERATOR_STEMS = frozenset({
 
 # Known app module directory names
 _APP_MODULE_DIRS = frozenset({
-    "tsmt",
-    "fanpac",
+    "ad",
+    "bet",
+    "bhatlib",
+    "cc",
+    "cf",
     "cmlmt",
     "comt",
+    "dc",
+    "ds",
+    "fanpac",
+    "llmt",
+    "lpmt",
+    "lrmt",
     "maxlikmt",
-    "garch",
-    "ldt",
-    "mgarch",
-    "msbvar",
+    "mlmt",
+    "optmt",
     "sslib",
-    "switch",
+    "tsmt",
 })
 
 # Subdirectory -> DocType mapping
@@ -38,7 +45,20 @@ _SUBDIR_MAP = {
     "getting-started": DocType.GETTING_STARTED,
     "user-guide": DocType.USER_GUIDE,
     "graphics-guide": DocType.GRAPHICS_GUIDE,
+    "coming-to-gauss": DocType.USER_GUIDE,
+    "data-management": DocType.USER_GUIDE,
+    "textbook-examples": DocType.USER_GUIDE,
+    "plot-gallery": DocType.GRAPHICS_GUIDE,
 }
+
+# Top-level non-function files (overview, index, etc.)
+_NON_FUNCTION_STEMS = frozenset({
+    "index",
+    "applications",
+    "command-reference",
+    "changelog",
+    "schtoc",
+})
 
 
 def classify_doc(filepath: str, base_dir: str) -> DocType:
@@ -75,17 +95,28 @@ def classify_doc(filepath: str, base_dir: str) -> DocType:
         if part in _APP_MODULE_DIRS:
             return DocType.APP_MODULE
 
-    # Rules 4 & 5: Top-level files only (no subdirectory)
-    if len(parts) == 1:
-        stem = PurePosixPath(parts[0]).stem
+    # Rule 4: index.rst in any directory -> ALPHA_INDEX
+    stem = PurePosixPath(parts[-1]).stem
+    if stem == "index":
+        return DocType.ALPHA_INDEX
 
-        # Rule 4: Single letter or underscore -> ALPHA_INDEX
+    # Rules 5-7: Top-level files only (no subdirectory)
+    if len(parts) == 1:
+        # Rule 5: Single letter or underscore -> ALPHA_INDEX
         if len(stem) == 1 and (stem.isalpha() or stem == "_"):
             return DocType.ALPHA_INDEX
 
-        # Rule 5: Known operator
+        # Rule 6: Known non-function files -> ALPHA_INDEX
+        if stem in _NON_FUNCTION_STEMS:
+            return DocType.ALPHA_INDEX
+
+        # Rule 7: Known operator
         if stem in _OPERATOR_STEMS:
             return DocType.OPERATOR
 
-    # Rule 6: Default
+    # Rule 8: Files in unmapped subdirectories with "-examples" or "-ug-" in name -> guide
+    if len(parts) > 1 and ("-examples" in stem or "-ug-" in stem):
+        return DocType.USER_GUIDE
+
+    # Rule 9: Default
     return DocType.COMMAND_REF
