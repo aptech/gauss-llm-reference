@@ -9,7 +9,6 @@ from rich.console import Console
 
 from gauss_doc_qa.parser.inventory import scan_docs_dir, load_exclude_patterns
 from gauss_doc_qa.parser.rst_parser import parse_rst
-from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
 from gauss_doc_qa.checkers import get_all_fast_checkers, get_all_sphinx_checkers, get_checker
 from gauss_doc_qa.report.terminal import render_terminal
 from gauss_doc_qa.report.json_report import render_json
@@ -92,6 +91,7 @@ def scan(ctx, output_format, checker_name, output, sphinx):
 
     # Run sphinx-mode checks if requested
     if sphinx:
+        from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
         click.echo("Loading Sphinx environment...")
         env = load_sphinx_env(docs_dir)
         click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
@@ -120,6 +120,7 @@ def check_refs(ctx, output_format, checker_name, output):
     docs_dir = ctx.obj["docs_dir"]
 
     # Load Sphinx environment
+    from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
     click.echo("Loading Sphinx environment...")
     env = load_sphinx_env(docs_dir)
     click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
