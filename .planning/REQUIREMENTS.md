@@ -16,7 +16,7 @@
 
 - [x] **FREQ-01**: Cross-reference frequency ranker counts how many times each Command Reference function is referenced across all docs
 - [x] **FREQ-02**: Frequency report outputs ranked list of functions with reference counts in terminal, JSON, and Markdown formats
-- [ ] **FREQ-03**: Top-N selection (default N=100) produces a target list for deep validation
+- [x] **FREQ-03**: Top-N selection (default N=100) produces a target list for deep validation
 
 ### Deep Validation
 
@@ -52,7 +52,7 @@
 | GLOS-04 | Phase 5 | Complete |
 | FREQ-01 | Phase 6 | Complete |
 | FREQ-02 | Phase 6 | Complete |
-| FREQ-03 | Phase 6 | Pending |
+| FREQ-03 | Phase 6 | Complete |
 | DEEP-01 | Phase 7 | Pending |
 | DEEP-02 | Phase 7 | Pending |
 | DEEP-03 | Phase 7 | Pending |
