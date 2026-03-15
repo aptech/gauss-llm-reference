@@ -34,11 +34,11 @@
   2. Running scan with --glossary flag produces findings for every non-canonical term with file, line, and suggested replacement
   3. Glossary findings appear in terminal, JSON, and Markdown reports with standard severity levels
   4. Glossary checker produces zero false positives on already-canonical text
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
+- [ ] 05-01-PLAN.md -- Glossary model, YAML loader, GlossaryChecker, and unit tests
+- [ ] 05-02-PLAN.md -- CLI --glossary integration and end-to-end report tests
 
 ### Phase 6: Cross-Reference Frequency Ranking
 **Goal**: Users can identify the most-referenced functions in the documentation to prioritize validation effort
@@ -78,6 +78,6 @@ Plans:
 | 2. Cross-Reference Validation | v1.0 | 3/3 | Complete | 2026-03-15 |
 | 3. Auto-Fix | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
-| 5. Terminology Glossary | v1.1 | 0/? | Not started | - |
+| 5. Terminology Glossary | v1.1 | 0/2 | Planned | - |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 0/? | Not started | - |
 | 7. Top-N Deep Validation | v1.1 | 0/? | Not started | - |
