@@ -46,24 +46,24 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIFF-01 | TBD | Pending |
-| DIFF-02 | TBD | Pending |
-| DIFF-03 | TBD | Pending |
-| EFIX-01 | TBD | Pending |
-| EFIX-02 | TBD | Pending |
-| EFIX-03 | TBD | Pending |
-| GFIX-01 | TBD | Pending |
-| GFIX-02 | TBD | Pending |
-| GFIX-03 | TBD | Pending |
-| GGEN-01 | TBD | Pending |
-| GGEN-02 | TBD | Pending |
-| GGEN-03 | TBD | Pending |
+| DIFF-01 | Phase 9 | Pending |
+| DIFF-02 | Phase 9 | Pending |
+| DIFF-03 | Phase 9 | Pending |
+| EFIX-01 | Phase 8 | Pending |
+| EFIX-02 | Phase 8 | Pending |
+| EFIX-03 | Phase 8 | Pending |
+| GFIX-01 | Phase 8 | Pending |
+| GFIX-02 | Phase 8 | Pending |
+| GFIX-03 | Phase 8 | Pending |
+| GGEN-01 | Phase 10 | Pending |
+| GGEN-02 | Phase 10 | Pending |
+| GGEN-03 | Phase 10 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-15*
-*Last updated: 2026-03-15 after initial definition*
+*Last updated: 2026-03-15 after roadmap creation*
