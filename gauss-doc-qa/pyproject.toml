@@ -9,6 +9,8 @@ dependencies = [
     "sphinx>=9.0",
     "sphinx-design",
     "pydata-sphinx-theme",
+    "anthropic>=0.80",
+    "pydantic>=2.0",
 ]
 
 [project.optional-dependencies]
