@@ -199,9 +199,11 @@ def inventory(ctx):
               help="Run Sphinx build verification after applying fixes")
 @click.option("--min-confidence", type=float, default=0.85,
               help="Minimum fuzzy match confidence for auto-fix")
+@click.option("--glossary", type=click.Path(exists=True), default=None,
+              help="Path to YAML glossary file for terminology auto-fix")
 @click.pass_context
-def fix(ctx, apply, verify, min_confidence):
-    """Auto-fix broken internal links (dry-run by default)."""
+def fix(ctx, apply, verify, min_confidence, glossary):
+    """Auto-fix broken internal links and terminology (dry-run by default)."""
     docs_dir = ctx.obj["docs_dir"]
 
     # Load Sphinx environment (lazy import, same pattern as check-refs)
@@ -236,9 +238,31 @@ def fix(ctx, apply, verify, min_confidence):
             findings = checker.check(parsed, sphinx_env=env, all_code_blocks=all_code_blocks)
             all_findings.extend(findings)
 
-    # Resolve fixable findings into proposals
+    # Resolve fixable findings into proposals (pass doc_names and label_names)
     gauss_objects = env.domaindata.get("gauss", {}).get("objects", {})
-    proposals = resolve_fixes(all_findings, gauss_objects, min_confidence)
+    doc_names = list(env.all_docs.keys())
+    std_labels = env.domaindata.get("std", {}).get("labels", {})
+    label_names = list(std_labels.keys())
+    proposals = resolve_fixes(
+        all_findings, gauss_objects, min_confidence,
+        doc_names=doc_names, label_names=label_names,
+    )
+
+    # Handle glossary fixes when --glossary provided
+    if glossary:
+        from gauss_doc_qa.glossary import load_glossary
+        from gauss_doc_qa.checkers.glossary import GlossaryChecker
+        from gauss_doc_qa.fixer import resolve_glossary_fixes
+
+        glossary_entries = load_glossary(glossary)
+        glossary_checker = GlossaryChecker(glossary_entries)
+
+        glossary_findings = []
+        for parsed in parsed_docs:
+            glossary_findings.extend(glossary_checker.check(parsed))
+
+        glossary_proposals = resolve_glossary_fixes(glossary_findings, glossary_entries)
+        proposals.extend(glossary_proposals)
 
     if not proposals:
         click.echo("No auto-fixable issues found.")
