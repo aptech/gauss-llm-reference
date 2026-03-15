@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Polish & Efficiency
 status: executing
-stopped_at: Completed 09-01-PLAN.md
-last_updated: "2026-03-15T12:57:03.181Z"
-last_activity: 2026-03-15 — Completed 09-01 diff filtering module + CLI --since wiring
+stopped_at: Completed 10-01-PLAN.md
+last_updated: "2026-03-15T13:05:05.434Z"
+last_activity: 2026-03-15 — Completed 10-01 glossary generation module + CLI subcommand
 progress:
   total_phases: 3
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  percent: 67
+  completed_phases: 3
+  total_plans: 4
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-15)
 
 **Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** Phase 9 — Diff Mode
+**Current focus:** Phase 10 — Glossary Generation -- COMPLETE
 
 ## Current Position
 
-Phase: 9 of 10 (Diff Mode) — second phase of v1.2 -- COMPLETE
+Phase: 10 of 10 (Glossary Generation) -- COMPLETE
 Plan: 1 of 1 (done)
-Status: Executing
-Last activity: 2026-03-15 — Completed 09-01 diff filtering module + CLI --since wiring
+Status: Complete
+Last activity: 2026-03-15 — Completed 10-01 glossary generation module + CLI subcommand
 
-Progress: [██████░░░░] 67%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3 (v1.2)
+- Total plans completed: 4 (v1.2)
 - Average duration: 3min
-- Total execution time: 9min
+- Total execution time: 12min
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
@@ -46,6 +46,7 @@ Progress: [██████░░░░] 67%
 | 09 | 01 | 2min | 2 | 3 |
 
 *Updated after each plan completion*
+| Phase 10 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,9 @@ Progress: [██████░░░░] 67%
 - [09-01]: parse_since uses re.fullmatch for SVN rev and strptime for dates
 - [09-01]: SVN diff output parsed by splitting whitespace, taking last element as path
 - [09-01]: Diff module lazy-imported inside scan() to avoid overhead when --since not used
+- [Phase 10]: All-caps regex added alongside proper noun pattern for terms like GAUSS, ARIMA
+- [Phase 10]: Separate 2-word regex ensures 2-word terms captured independently of 3-word supersets
+- [Phase 10]: Lazy import of glossary_gen in CLI matches existing pattern for diff module
 
 ### Pending Todos
 
@@ -73,6 +77,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-15
-Stopped at: Completed 09-01-PLAN.md
+Last session: 2026-03-15T13:05:05.431Z
+Stopped at: Completed 10-01-PLAN.md
 Resume file: None

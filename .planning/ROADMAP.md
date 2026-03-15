@@ -31,7 +31,7 @@
 
 - [x] **Phase 8: Extended Auto-Fix** - Extend auto-fix to cover :doc:, :ref:, and glossary term corrections
 - [x] **Phase 9: Diff Mode** - Incremental scanning of only changed RST files
-- [ ] **Phase 10: Glossary Generation** - Auto-generate draft glossary from corpus term frequency
+- [x] **Phase 10: Glossary Generation** - Auto-generate draft glossary from corpus term frequency (completed 2026-03-15)
 
 ## Phase Details
 
@@ -72,7 +72,7 @@ Plans:
   1. Running `glossary-gen` on a docs directory extracts frequently-used terms and groups them by semantic similarity
   2. The output is a draft YAML glossary file in the same format as the canonical glossary, ready for manual curation
   3. The `glossary-gen` subcommand is available in the CLI and accepts a docs directory path
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 10-01-PLAN.md -- Term extraction, grouping module, and CLI glossary-gen subcommand
@@ -92,4 +92,4 @@ Plans:
 | 7. Top-N Deep Validation | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 8. Extended Auto-Fix | v1.2 | 2/2 | Complete | 2026-03-15 |
 | 9. Diff Mode | v1.2 | 1/1 | Complete | 2026-03-15 |
-| 10. Glossary Generation | v1.2 | 0/1 | Not started | - |
+| 10. Glossary Generation | 1/1 | Complete   | 2026-03-15 | - |

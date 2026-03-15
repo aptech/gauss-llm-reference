@@ -25,9 +25,9 @@
 
 ### Glossary Generation
 
-- [ ] **GGEN-01**: Glossary generator scans corpus to extract frequently-used terms and group by semantic similarity
-- [ ] **GGEN-02**: Generator outputs a draft YAML glossary file that the user can curate
-- [ ] **GGEN-03**: CLI glossary-gen subcommand produces the draft glossary from a docs directory
+- [x] **GGEN-01**: Glossary generator scans corpus to extract frequently-used terms and group by semantic similarity
+- [x] **GGEN-02**: Generator outputs a draft YAML glossary file that the user can curate
+- [x] **GGEN-03**: CLI glossary-gen subcommand produces the draft glossary from a docs directory
 
 ## Future Requirements (v2.0+)
 
@@ -55,9 +55,9 @@
 | GFIX-01 | Phase 8 | Complete |
 | GFIX-02 | Phase 8 | Complete |
 | GFIX-03 | Phase 8 | Complete |
-| GGEN-01 | Phase 10 | Pending |
-| GGEN-02 | Phase 10 | Pending |
-| GGEN-03 | Phase 10 | Pending |
+| GGEN-01 | Phase 10 | Complete |
+| GGEN-02 | Phase 10 | Complete |
+| GGEN-03 | Phase 10 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 12 total
