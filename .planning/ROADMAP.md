@@ -37,7 +37,7 @@
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md -- Glossary model, YAML loader, GlossaryChecker, and unit tests
+- [x] 05-01-PLAN.md -- Glossary model, YAML loader, GlossaryChecker, and unit tests
 - [ ] 05-02-PLAN.md -- CLI --glossary integration and end-to-end report tests
 
 ### Phase 6: Cross-Reference Frequency Ranking
@@ -78,6 +78,6 @@ Plans:
 | 2. Cross-Reference Validation | v1.0 | 3/3 | Complete | 2026-03-15 |
 | 3. Auto-Fix | v1.0 | 2/2 | Complete | 2026-03-15 |
 | 4. AI Persona Reviews | v1.0 | 2/2 | Complete | 2026-03-15 |
-| 5. Terminology Glossary | v1.1 | 0/2 | Planned | - |
+| 5. Terminology Glossary | v1.1 | 1/2 | In progress | - |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 0/? | Not started | - |
 | 7. Top-N Deep Validation | v1.1 | 0/? | Not started | - |

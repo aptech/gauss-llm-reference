@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Glossary & Deep Validation
-status: Ready to plan
-stopped_at: Roadmap created, ready to plan Phase 5 or Phase 6
+status: In progress
+stopped_at: Completed 05-01-PLAN.md (glossary model and checker)
 last_updated: "2026-03-15"
-last_activity: 2026-03-15 — v1.1 roadmap created (Phases 5-7)
+last_activity: 2026-03-15 — Completed 05-01 glossary model, YAML loader, GlossaryChecker, 19 tests
 progress:
   total_phases: 3
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 4
+  completed_plans: 1
+  percent: 25
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-15)
 ## Current Position
 
 Phase: 5 of 7 (Terminology Glossary)
-Plan: -- (not yet planned)
-Status: Ready to plan
-Last activity: 2026-03-15 -- v1.1 roadmap created
+Plan: 1 of 2 complete (Terminology Glossary)
+Status: In progress
+Last activity: 2026-03-15 -- Completed 05-01 glossary model and checker
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -50,6 +50,8 @@ Recent decisions affecting current work:
 - [v1.1 scope]: Diff-mode and :doc:/:ref: auto-fix deferred to v1.2 -- workflow efficiency, not doc quality
 - [v1.1 scope]: N=100 for top-N validation -- covers most-used functions while keeping validation meaningful
 - [v1.1 roadmap]: Phases 5 and 6 are independent (can execute in either order); Phase 7 depends on Phase 6
+- [05-01]: GlossaryChecker not auto-registered -- requires runtime glossary data, instantiated by CLI
+- [05-01]: Combined regex alternation for aliases sorted by length descending for correct multi-word matching
 
 ### Pending Todos
 
@@ -62,5 +64,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-15
-Stopped at: Roadmap created with 3 phases (5-7). Ready to plan Phase 5 or Phase 6.
+Stopped at: Completed 05-01-PLAN.md. Ready for 05-02 (CLI --glossary integration).
 Resume file: None

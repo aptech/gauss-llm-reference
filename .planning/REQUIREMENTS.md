@@ -7,8 +7,8 @@
 
 ### Glossary
 
-- [ ] **GLOS-01**: User can define a canonical glossary file (YAML) with preferred terms, aliases, and common deviations
-- [ ] **GLOS-02**: Terminology scanner checker flags non-canonical terms across RST files with file path, line, and suggested replacement
+- [x] **GLOS-01**: User can define a canonical glossary file (YAML) with preferred terms, aliases, and common deviations
+- [x] **GLOS-02**: Terminology scanner checker flags non-canonical terms across RST files with file path, line, and suggested replacement
 - [ ] **GLOS-03**: Glossary checker integrates into existing Finding/report pipeline (same severity, format, output modes)
 - [ ] **GLOS-04**: CLI scan command accepts --glossary flag to enable terminology checking with a glossary file path
 
@@ -46,8 +46,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GLOS-01 | Phase 5 | Pending |
-| GLOS-02 | Phase 5 | Pending |
+| GLOS-01 | Phase 5 | Complete |
+| GLOS-02 | Phase 5 | Complete |
 | GLOS-03 | Phase 5 | Pending |
 | GLOS-04 | Phase 5 | Pending |
 | FREQ-01 | Phase 6 | Pending |
