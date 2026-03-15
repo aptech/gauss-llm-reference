@@ -9,6 +9,7 @@ class DeepCheckType(Enum):
     EXAMPLES_NONTRIVIAL = "examples_nontrivial"
     RETURN_TYPE_DOCUMENTED = "return_type_documented"
     SEEALSO_PRESENT = "seealso_present"
+    AI_EXAMPLE_QUALITY = "ai_example_quality"
 
 
 @dataclass
