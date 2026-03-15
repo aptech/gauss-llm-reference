@@ -60,8 +60,10 @@ def cli(ctx, docs_dir):
               help="Write report to file instead of stdout")
 @click.option("--sphinx", is_flag=True, default=False,
               help="Also run Sphinx-mode checks (cross-refs, orphans, coverage, seealso)")
+@click.option("--glossary", type=click.Path(exists=True), default=None,
+              help="Path to YAML glossary file for terminology checking")
 @click.pass_context
-def scan(ctx, output_format, checker_name, output, sphinx):
+def scan(ctx, output_format, checker_name, output, sphinx, glossary):
     """Run structural checks on all RST files."""
     docs_dir = ctx.obj["docs_dir"]
 
@@ -101,6 +103,18 @@ def scan(ctx, output_format, checker_name, output, sphinx):
             for checker in sphinx_checkers:
                 findings = checker.check(parsed, sphinx_env=env, all_code_blocks=all_code_blocks)
                 all_findings.extend(findings)
+
+    # Run glossary checker if --glossary provided
+    if glossary:
+        from gauss_doc_qa.glossary import load_glossary
+        from gauss_doc_qa.checkers.glossary import GlossaryChecker
+
+        glossary_entries = load_glossary(glossary)
+        glossary_checker = GlossaryChecker(glossary_entries)
+
+        for parsed in parsed_docs:
+            findings = glossary_checker.check(parsed)
+            all_findings.extend(findings)
 
     # Render
     _render_findings(all_findings, output_format, output)
