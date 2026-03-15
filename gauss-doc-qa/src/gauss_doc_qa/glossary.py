@@ -107,9 +107,12 @@ def build_alias_map(entries: list[GlossaryEntry]) -> dict[str, GlossaryEntry]:
             key = alias.lower()
             if key in alias_map:
                 existing = alias_map[key]
-                raise ValueError(
-                    f"Alias conflict: '{alias}' (lowercased: '{key}') is claimed by "
-                    f"both '{existing.canonical}' and '{entry.canonical}'"
-                )
+                # Only flag as conflict if it's a different entry
+                if existing is not entry:
+                    raise ValueError(
+                        f"Alias conflict: '{alias}' (lowercased: '{key}') is claimed by "
+                        f"both '{existing.canonical}' and '{entry.canonical}'"
+                    )
+                continue  # same entry, different case -- skip duplicate
             alias_map[key] = entry
     return alias_map
