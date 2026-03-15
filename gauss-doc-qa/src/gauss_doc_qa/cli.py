@@ -587,3 +587,43 @@ def deep_validate(ctx, top_n, targets_file, no_ai, no_blog, output_format, outpu
     # Step 6: Summary line
     passed = sum(1 for r in results if r.overall_pass)
     click.echo(f"Deep validation: {passed}/{len(results)} functions passed all checks")
+
+
+@cli.command("glossary-gen")
+@click.option("--min-freq", type=int, default=3,
+              help="Minimum term frequency to include (default: 3)")
+@click.option("--output", "-o", type=click.Path(), default=None,
+              help="Write YAML to file instead of stdout")
+@click.pass_context
+def glossary_gen(ctx, min_freq, output):
+    """Auto-generate a draft glossary YAML from corpus term frequency."""
+    docs_dir = ctx.obj["docs_dir"]
+
+    # Discover and parse all RST files
+    conf_py = Path(docs_dir) / "conf.py"
+    exclude = load_exclude_patterns(str(conf_py)) if conf_py.exists() else None
+    file_list = scan_docs_dir(docs_dir, exclude)
+
+    click.echo(f"Scanning {len(file_list)} RST files for terms...")
+
+    parsed_docs = []
+    for filepath, doc_type in file_list:
+        content = Path(filepath).read_text(encoding="utf-8", errors="replace")
+        parsed = parse_rst(filepath, content, doc_type)
+        parsed_docs.append(parsed)
+
+    # Extract, group, generate (lazy import)
+    from gauss_doc_qa.glossary_gen import extract_terms, group_terms, generate_glossary_yaml
+    term_counts = extract_terms(parsed_docs)
+    click.echo(f"Found {len(term_counts)} unique terms")
+
+    groups = group_terms(term_counts, min_freq=min_freq)
+    click.echo(f"Grouped into {len(groups)} glossary entries (min frequency: {min_freq})")
+
+    yaml_output = generate_glossary_yaml(groups)
+
+    if output:
+        Path(output).write_text(yaml_output)
+        click.echo(f"Draft glossary written to {output}")
+    else:
+        click.echo(yaml_output)
