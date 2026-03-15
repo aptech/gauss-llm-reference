@@ -62,8 +62,10 @@ def cli(ctx, docs_dir):
               help="Also run Sphinx-mode checks (cross-refs, orphans, coverage, seealso)")
 @click.option("--glossary", type=click.Path(exists=True), default=None,
               help="Path to YAML glossary file for terminology checking")
+@click.option("--since", type=str, default=None,
+              help="Only check files changed since date (YYYY-MM-DD) or SVN revision (rNNNNN)")
 @click.pass_context
-def scan(ctx, output_format, checker_name, output, sphinx, glossary):
+def scan(ctx, output_format, checker_name, output, sphinx, glossary, since):
     """Run structural checks on all RST files."""
     docs_dir = ctx.obj["docs_dir"]
 
@@ -71,6 +73,20 @@ def scan(ctx, output_format, checker_name, output, sphinx, glossary):
     conf_py = Path(docs_dir) / "conf.py"
     exclude = load_exclude_patterns(str(conf_py)) if conf_py.exists() else None
     file_list = scan_docs_dir(docs_dir, exclude)
+
+    # Apply diff-mode filtering if --since provided
+    if since:
+        from gauss_doc_qa.diff import parse_since, filter_by_date, filter_by_svn_revision
+        mode, value = parse_since(since)
+        if mode == "date":
+            file_list = filter_by_date(file_list, value)
+            click.echo(f"Diff mode: checking {len(file_list)} files modified since {since}")
+        else:
+            file_list = filter_by_svn_revision(file_list, value, docs_dir)
+            click.echo(f"Diff mode: checking {len(file_list)} files changed since revision {value}")
+        if not file_list:
+            click.echo("No changed files found.")
+            return
 
     # Select checkers
     if checker_name:
