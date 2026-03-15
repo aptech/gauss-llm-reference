@@ -13,15 +13,15 @@
 
 ### Extended Auto-Fix
 
-- [ ] **EFIX-01**: Auto-fix resolves broken :doc: references by fuzzy-matching against known doc names in env.all_docs
-- [ ] **EFIX-02**: Auto-fix resolves broken :ref: references by fuzzy-matching against std domain labels
-- [ ] **EFIX-03**: Extended auto-fix uses same leaf-text-only safety constraint and dry-run default as :func: fixer
+- [x] **EFIX-01**: Auto-fix resolves broken :doc: references by fuzzy-matching against known doc names in env.all_docs
+- [x] **EFIX-02**: Auto-fix resolves broken :ref: references by fuzzy-matching against std domain labels
+- [x] **EFIX-03**: Extended auto-fix uses same leaf-text-only safety constraint and dry-run default as :func: fixer
 
 ### Glossary Auto-Fix
 
-- [ ] **GFIX-01**: Glossary auto-fix replaces non-canonical terms with canonical equivalents using leaf-text-only safe editing
+- [x] **GFIX-01**: Glossary auto-fix replaces non-canonical terms with canonical equivalents using leaf-text-only safe editing
 - [ ] **GFIX-02**: CLI fix accepts --glossary flag to apply terminology corrections (dry-run default)
-- [ ] **GFIX-03**: Glossary auto-fix skips terms inside code blocks, directives, and table structures
+- [x] **GFIX-03**: Glossary auto-fix skips terms inside code blocks, directives, and table structures
 
 ### Glossary Generation
 
@@ -49,12 +49,12 @@
 | DIFF-01 | Phase 9 | Pending |
 | DIFF-02 | Phase 9 | Pending |
 | DIFF-03 | Phase 9 | Pending |
-| EFIX-01 | Phase 8 | Pending |
-| EFIX-02 | Phase 8 | Pending |
-| EFIX-03 | Phase 8 | Pending |
-| GFIX-01 | Phase 8 | Pending |
+| EFIX-01 | Phase 8 | Complete |
+| EFIX-02 | Phase 8 | Complete |
+| EFIX-03 | Phase 8 | Complete |
+| GFIX-01 | Phase 8 | Complete |
 | GFIX-02 | Phase 8 | Pending |
-| GFIX-03 | Phase 8 | Pending |
+| GFIX-03 | Phase 8 | Complete |
 | GGEN-01 | Phase 10 | Pending |
 | GGEN-02 | Phase 10 | Pending |
 | GGEN-03 | Phase 10 | Pending |

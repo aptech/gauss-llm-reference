@@ -48,7 +48,7 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Extend resolver for :doc:/:ref: fuzzy matching + glossary fixer module
+- [x] 08-01-PLAN.md — Extend resolver for :doc:/:ref: fuzzy matching + glossary fixer module
 - [ ] 08-02-PLAN.md — Wire extended fixes and glossary fixer into CLI fix subcommand
 
 ### Phase 9: Diff Mode
@@ -90,6 +90,6 @@ Plans:
 | 5. Terminology Glossary | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 7. Top-N Deep Validation | v1.1 | 2/2 | Complete | 2026-03-15 |
-| 8. Extended Auto-Fix | v1.2 | 0/2 | In progress | - |
+| 8. Extended Auto-Fix | v1.2 | 1/2 | In progress | - |
 | 9. Diff Mode | v1.2 | 0/? | Not started | - |
 | 10. Glossary Generation | v1.2 | 0/? | Not started | - |
