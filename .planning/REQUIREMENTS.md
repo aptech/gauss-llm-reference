@@ -18,12 +18,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **STRC-01**: Code block presence check — every Command Reference page has at least one literal_block node
 - [x] **STRC-02**: Code block non-empty check — no literal_block nodes with whitespace-only content
-- [ ] **STRC-03**: Broken cross-reference detection — all :func:, :doc:, :ref: links resolve through GAUSS domain
-- [ ] **STRC-04**: Orphan page detection — RST files not in any toctree (respecting :orphan: directive and include fragments)
+- [x] **STRC-03**: Broken cross-reference detection — all :func:, :doc:, :ref: links resolve through GAUSS domain
+- [x] **STRC-04**: Orphan page detection — RST files not in any toctree (respecting :orphan: directive and include fragments)
 - [x] **STRC-05**: Section structure validation — Command Reference pages have required sections (Purpose/Format/Examples)
 - [x] **STRC-06**: Function signature completeness — function directives have parameters and return type documented
-- [ ] **STRC-07**: Function coverage check — every Command Reference function name appears in at least one code example somewhere in the docs
-- [ ] **STRC-08**: See Also validation — seealso links point to existing function pages
+- [x] **STRC-07**: Function coverage check — every Command Reference function name appears in at least one code example somewhere in the docs
+- [x] **STRC-08**: See Also validation — seealso links point to existing function pages
 
 ### Auto-Fix
 
@@ -91,12 +91,12 @@ Deferred to future release. Tracked but not in current roadmap.
 | FOUN-04 | Phase 1 | Complete |
 | STRC-01 | Phase 1 | Complete |
 | STRC-02 | Phase 1 | Complete |
-| STRC-03 | Phase 2 | Pending |
-| STRC-04 | Phase 2 | Pending |
+| STRC-03 | Phase 2 | Complete |
+| STRC-04 | Phase 2 | Complete |
 | STRC-05 | Phase 1 | Complete |
 | STRC-06 | Phase 1 | Complete |
-| STRC-07 | Phase 2 | Pending |
-| STRC-08 | Phase 2 | Pending |
+| STRC-07 | Phase 2 | Complete |
+| STRC-08 | Phase 2 | Complete |
 | FIXR-01 | Phase 3 | Pending |
 | FIXR-02 | Phase 3 | Pending |
 | FIXR-03 | Phase 3 | Pending |
