@@ -45,11 +45,11 @@
   3. Running `fix --glossary` on a file with non-canonical terms replaces them with canonical equivalents
   4. All extended auto-fixes skip content inside code blocks, directives, and table structures (leaf-text-only safety)
   5. All extended auto-fixes default to dry-run and require explicit confirmation to write changes
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 08-01: TBD
-- [ ] 08-02: TBD
+- [ ] 08-01-PLAN.md — Extend resolver for :doc:/:ref: fuzzy matching + glossary fixer module
+- [ ] 08-02-PLAN.md — Wire extended fixes and glossary fixer into CLI fix subcommand
 
 ### Phase 9: Diff Mode
 **Goal**: Users can run incremental scans that only check files changed since a given point in time, avoiding full-corpus re-scans
@@ -90,6 +90,6 @@ Plans:
 | 5. Terminology Glossary | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 6. Cross-Reference Frequency Ranking | v1.1 | 2/2 | Complete | 2026-03-15 |
 | 7. Top-N Deep Validation | v1.1 | 2/2 | Complete | 2026-03-15 |
-| 8. Extended Auto-Fix | v1.2 | 0/? | Not started | - |
+| 8. Extended Auto-Fix | v1.2 | 0/2 | In progress | - |
 | 9. Diff Mode | v1.2 | 0/? | Not started | - |
 | 10. Glossary Generation | v1.2 | 0/? | Not started | - |
