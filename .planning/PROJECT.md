@@ -76,5 +76,15 @@ Every function in the Command Reference must have an accurate signature, correct
 | N=100 for deep validation | Covers most-used functions without diminishing returns | ✓ Good |
 | Deep validation separate from Finding model | Per-function pass/fail is different from per-line findings | ✓ Good |
 
+## Current Milestone: v1.2 Polish & Efficiency
+
+**Goal:** Extend auto-fix to cover more reference types and glossary terms, add diff-mode for incremental checking, and auto-generate glossaries from corpus analysis.
+
+**Target features:**
+- Diff-mode for incremental checking (only changed files)
+- :doc: and :ref: auto-fix (extending v1.0 :func: auto-fix)
+- Glossary auto-fix for non-canonical terms
+- Glossary auto-generation from corpus term frequency
+
 ---
-*Last updated: 2026-03-15 after v1.1 milestone*
+*Last updated: 2026-03-15 after v1.2 milestone start*
