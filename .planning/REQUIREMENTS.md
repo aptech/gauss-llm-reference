@@ -20,7 +20,7 @@
 ### Glossary Auto-Fix
 
 - [x] **GFIX-01**: Glossary auto-fix replaces non-canonical terms with canonical equivalents using leaf-text-only safe editing
-- [ ] **GFIX-02**: CLI fix accepts --glossary flag to apply terminology corrections (dry-run default)
+- [x] **GFIX-02**: CLI fix accepts --glossary flag to apply terminology corrections (dry-run default)
 - [x] **GFIX-03**: Glossary auto-fix skips terms inside code blocks, directives, and table structures
 
 ### Glossary Generation
@@ -53,7 +53,7 @@
 | EFIX-02 | Phase 8 | Complete |
 | EFIX-03 | Phase 8 | Complete |
 | GFIX-01 | Phase 8 | Complete |
-| GFIX-02 | Phase 8 | Pending |
+| GFIX-02 | Phase 8 | Complete |
 | GFIX-03 | Phase 8 | Complete |
 | GGEN-01 | Phase 10 | Pending |
 | GGEN-02 | Phase 10 | Pending |
