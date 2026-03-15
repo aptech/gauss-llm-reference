@@ -176,3 +176,93 @@ def inventory(ctx):
 
     console.print(f"\nTotal RST files: {len(file_list)}")
     console.print(table)
+
+
+@cli.command()
+@click.option("--apply", is_flag=True, default=False,
+              help="Apply fixes (default is dry-run)")
+@click.option("--verify", is_flag=True, default=False,
+              help="Run Sphinx build verification after applying fixes")
+@click.option("--min-confidence", type=float, default=0.85,
+              help="Minimum fuzzy match confidence for auto-fix")
+@click.pass_context
+def fix(ctx, apply, verify, min_confidence):
+    """Auto-fix broken internal links (dry-run by default)."""
+    docs_dir = ctx.obj["docs_dir"]
+
+    # Load Sphinx environment (lazy import, same pattern as check-refs)
+    from gauss_doc_qa.parser.sphinx_env import load_sphinx_env
+    from gauss_doc_qa.fixer import resolve_fixes, apply_fixes, verify_sphinx_build
+
+    click.echo("Loading Sphinx environment...")
+    env = load_sphinx_env(docs_dir)
+    click.echo(f"Sphinx environment loaded: {len(env.all_docs)} documents")
+
+    # Parse all RST files
+    conf_py = Path(docs_dir) / "conf.py"
+    exclude = load_exclude_patterns(str(conf_py)) if conf_py.exists() else None
+    file_list = scan_docs_dir(docs_dir, exclude)
+
+    parsed_docs = []
+    all_code_blocks = {}
+    for filepath, doc_type in file_list:
+        content = Path(filepath).read_text(encoding="utf-8", errors="replace")
+        parsed = parse_rst(filepath, content, doc_type)
+        parsed_docs.append(parsed)
+        all_code_blocks[parsed.path] = [cb.content for cb in parsed.code_blocks]
+
+    # Run LinksChecker and SeeAlsoChecker to find broken refs
+    from gauss_doc_qa.checkers import get_checker
+    links_checker = get_checker("links")
+    seealso_checker = get_checker("seealso")
+
+    all_findings = []
+    for parsed in parsed_docs:
+        for checker in [links_checker, seealso_checker]:
+            findings = checker.check(parsed, sphinx_env=env, all_code_blocks=all_code_blocks)
+            all_findings.extend(findings)
+
+    # Resolve fixable findings into proposals
+    gauss_objects = env.domaindata.get("gauss", {}).get("objects", {})
+    proposals = resolve_fixes(all_findings, gauss_objects, min_confidence)
+
+    if not proposals:
+        click.echo("No auto-fixable issues found.")
+        return
+
+    # Apply (dry-run or real)
+    applied = apply_fixes(proposals, dry_run=not apply)
+
+    # Render output with Rich
+    console = Console(no_color=False)
+    for proposal in applied:
+        console.print(f"--- {proposal.file_path} (line {proposal.line_number})")
+        console.print(f"- {proposal.original_text}", style="red")
+        console.print(f"+ {proposal.fixed_text}", style="green")
+        console.print(
+            f"  [confidence: {proposal.confidence:.2f}, category: {proposal.category}]"
+        )
+        console.print()
+
+    # Summary line with confidence breakdown
+    high = sum(1 for p in applied if p.confidence >= 0.95)
+    medium = sum(1 for p in applied if 0.85 <= p.confidence < 0.95)
+    click.echo(
+        f"Proposed fixes: {len(applied)} ({high} high confidence, {medium} medium)"
+    )
+
+    if not apply:
+        click.echo("Run with --apply to write changes.")
+    else:
+        click.echo(f"Applied {len(applied)} fixes.")
+
+    # Verification
+    if verify and apply:
+        click.echo("Running Sphinx build verification...")
+        result = verify_sphinx_build(docs_dir)
+        status = "PASSED" if result["success"] else "FAILED"
+        click.echo(
+            f"Verification: {status} ({result['warning_count']} warnings)"
+        )
+    elif verify and not apply:
+        click.echo("Skipping --verify (no changes applied).")
