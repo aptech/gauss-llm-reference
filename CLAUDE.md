@@ -5,14 +5,53 @@ This reference helps Claude write idiomatic GAUSS code. GAUSS is a matrix-orient
 ## GAUSS Code Generation Rules
 
 - **`local` is ONLY valid inside procedures** — never use `local` at global scope. At global scope, just assign variables directly.
-- **GAUSS identifiers are case-insensitive** - `coef_est`, `Coef_Est`, and `COEF_EST` are the same symbol. Use one canonical spelling, preferably `lower_snake_case`. Never create separate variables, procedures, structs, or fields that differ only by case.
-- **Avoid reserved words and built-in names as identifiers** - do not use GAUSS keywords or built-in procedure/function names as variable, procedure, struct, or field names. Bad names include `if`, `for`, `proc`, `endp`, `local`, `retp`, `call`, `struct`, `print`, `load`, `save`, and `beta`. Use names like `if_flag`, `for_idx`, `result_mat`, `load_path`, or `beta_param` instead.
+- **GAUSS identifiers are case-insensitive** - `coef_est`, `Coef_Est`, and `COEF_EST` are the same symbol. Use one canonical spelling, preferably `lower_snake_case`. Never create separate variables, procedures, structs, or user-defined fields that differ only by case.
+- **Reserved words and built-in names are forbidden for new identifiers** - before creating any variable, procedure, struct, or user-defined field name, compare it case-insensitively against GAUSS keywords, commands, built-in procedures/functions, and app/library procedure names. If it matches, choose a different name. Bad names include `if`, `for`, `proc`, `endp`, `local`, `retp`, `call`, `struct`, `print`, `format`, `load`, `save`, `beta`, and `gamma`. Use names like `if_flag`, `for_idx`, `result_mat`, `load_path`, `coef_vec`, `beta_param`, or `gamma_param` instead.
 - **Wrap print expressions in parentheses:** `print (1 + 2);` not `print 1 + 2;` — spaces around operators cause parse errors in versions before 26.0.1. Most users are on older versions.
 - **Boolean row selection uses `selif()`**, not bracket indexing. `selif(x, x[.,1] .> 0)` — never `x[x[.,1] .> 0]`.
 - **String operators use `$` prefix:** `$+` combine, `$|` vertical concat, `$~` horizontal concat. Never use `+` for string concatenation.
 - **`==` is matrix-wide (returns scalar 1 if ALL elements match).** Use `.==` for an element-wise 0/1 mask. This is the opposite of MATLAB where `==` is element-wise.
 
 ## Quick Reference
+
+### Identifier Naming
+
+GAUSS is case-insensitive and has many built-in symbols. Treat reserved-word and built-in-name checks as exact matches after lowercasing.
+
+Before writing a new identifier:
+
+1. Lowercase the candidate name.
+2. Reject it if it matches any GAUSS keyword, command, built-in function/procedure, app/library procedure, or existing identifier in the same scope.
+3. Reject it if another generated identifier has the same lowercase spelling.
+4. Prefer descriptive `lower_snake_case` names with suffixes like `_vec`, `_mat`, `_idx`, `_flag`, `_path`, `_ctl`, or `_out`.
+
+Common unsafe names are not limited to control-flow words. Statistical names like `beta` and `gamma` are also built-ins, so do not create variables with those exact names.
+
+```gauss
+// WRONG: these create identifiers that collide with GAUSS syntax or built-ins
+Beta = olsqr(y, x);        // same as beta; collides with beta()
+gamma = 0.9;               // collides with gamma()
+format = "csv";            // collides with format
+load = "data.csv";         // collides with load
+for = 1;                   // collides with for
+
+// RIGHT: descriptive names that do not exactly match reserved/built-in names
+coef_vec = olsqr(y, x);
+gamma_param = 0.9;
+format_name = "csv";
+load_path = "data.csv";
+for_idx = 1;
+```
+
+Access documented output fields with their documented names, but do not copy them into unsafe identifiers:
+
+```gauss
+// OK: documented output structure field
+coef_vec = out.beta;
+
+// WRONG: creates a new identifier named beta
+beta = out.beta;
+```
 
 ### Basic Operators
 
