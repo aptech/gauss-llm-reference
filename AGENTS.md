@@ -1,6 +1,6 @@
 # GAUSS Programming Language Reference
 
-This reference helps Claude write idiomatic GAUSS code. GAUSS is a matrix-oriented programming language designed for statistical analysis, econometrics, and data science.
+This reference helps Codex write idiomatic GAUSS code. GAUSS is a matrix-oriented programming language designed for statistical analysis, econometrics, and data science.
 
 ## GAUSS Code Generation Rules
 
@@ -243,7 +243,7 @@ proc (1) = optimize(data, struct mySettings s);
 endp;
 ```
 
-See `.claude/gauss/structures.md` for control structures (olsmt, glm, etc.)
+See `.Codex/gauss/structures.md` for control structures (olsmt, glm, etc.)
 
 ### Loading and Saving Data
 
@@ -293,7 +293,7 @@ result = aggregate(df, "mean", "group_col");
 result = aggregate(df, "sum", "col1" $| "col2");  // multiple group columns
 ```
 
-See `.claude/gauss/dataframes.md` for comprehensive dataframe operations.
+See `.Codex/gauss/dataframes.md` for comprehensive dataframe operations.
 
 ### Print Statement
 
@@ -421,7 +421,7 @@ plotSetYLabel(&pc, "Y Variable");
 plotScatter(pc, x, y);
 ```
 
-See `.claude/gauss/graphics.md` for comprehensive graphics reference.
+See `.Codex/gauss/graphics.md` for comprehensive graphics reference.
 
 ### Common Patterns
 
@@ -551,19 +551,19 @@ y = sumr(1~2~3);    // RIGHT: use ~ for horizontal concat
 
 ### Topic-Specific References
 
-- `.claude/gauss/dataframes.md` - Dataframe operations, formula strings, types
-- `.claude/gauss/structures.md` - Control structures for olsmt, glm, estimation
-- `.claude/gauss/strings.md` - String manipulation and formatting
-- `.claude/gauss/graphics.md` - Plotting and visualization
-- `.claude/gauss/io.md` - File I/O, databases, web data
-- `.claude/gauss/matrices.md` - Matrix operations and linear algebra
-- `.claude/gauss/timeseries.md` - Time series analysis
-- `.claude/gauss/panel.md` - Panel data operations
-- `.claude/gauss/libraries.md` - Libraries, #include, SRC_PATH, code organization
+- `.Codex/gauss/dataframes.md` - Dataframe operations, formula strings, types
+- `.Codex/gauss/structures.md` - Control structures for olsmt, glm, estimation
+- `.Codex/gauss/strings.md` - String manipulation and formatting
+- `.Codex/gauss/graphics.md` - Plotting and visualization
+- `.Codex/gauss/io.md` - File I/O, databases, web data
+- `.Codex/gauss/matrices.md` - Matrix operations and linear algebra
+- `.Codex/gauss/timeseries.md` - Time series analysis
+- `.Codex/gauss/panel.md` - Panel data operations
+- `.Codex/gauss/libraries.md` - Libraries, #include, SRC_PATH, code organization
 
 ### Application Modules
 
-- `.claude/gauss/apps/tsmt.md` - Time Series MT
-- `.claude/gauss/apps/fanpac.md` - FANPAC (Factor Analysis)
-- `.claude/gauss/apps/cointegration.md` - Cointegration analysis
-- `.claude/gauss/apps/garch.md` - GARCH modeling
+- `.Codex/gauss/apps/tsmt.md` - Time Series MT
+- `.Codex/gauss/apps/fanpac.md` - FANPAC (Factor Analysis)
+- `.Codex/gauss/apps/cointegration.md` - Cointegration analysis
+- `.Codex/gauss/apps/garch.md` - GARCH modeling
