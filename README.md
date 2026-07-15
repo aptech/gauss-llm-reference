@@ -1,40 +1,645 @@
-# GAUSS LLM Reference
+# GAUSS Programming Language Reference
 
-Help AI assistants (Claude, ChatGPT, Copilot, etc.) write better GAUSS code.
+This is the canonical general reference for AI assistants writing idiomatic
+GAUSS code. GAUSS is a matrix-oriented programming language for statistical
+analysis, econometrics, and data science.
 
-## What is This?
+## How To Use This Reference
 
-This repository contains reference documentation optimized for consumption by Large Language Models. Point your AI coding assistant here to get better GAUSS code generation.
+- Start with the critical code-generation rules and quick reference below.
+- Remote consumers should fetch this canonical file directly from
+  [GitHub](https://github.com/aptech/gauss-llm-reference/blob/main/README.md).
+- Load only the relevant detailed topic from `language/`, `gotchas/`,
+  `vs-other-languages/`, or `apps/` when the task needs it.
+- `AGENTS.md` and `CLAUDE.md` are intentionally small client entrypoints. They
+  route here and do not own separate copies of the language rules.
+- The executable Python documentation-audit tool lives under `gauss-doc-qa/`.
+  Its completed development history under `.planning/` is an archive, not
+  current task routing.
 
-## How to Use
+Repository map:
 
-### With ChatGPT
-Tell it:
-> "Please read https://github.com/aptech/gauss-llm-reference/blob/main/CLAUDE.md and use it as reference for writing GAUSS code."
+| Path | Purpose |
+|---|---|
+| `README.md` | Canonical general GAUSS quick reference |
+| `language/` | Detailed language and standard-library topics |
+| `gotchas/` | Focused failure modes and corrections |
+| `vs-other-languages/` | Translation guidance for users of other languages |
+| `apps/` | GAUSS application-module references |
+| `gauss-doc-qa/` | Python QA tooling for GAUSS documentation |
+| `.planning/` | Historical record of completed `gauss-doc-qa` milestones |
 
-### With Claude
-Add to your prompt or Claude Code settings:
-> "For GAUSS programming, reference https://github.com/aptech/gauss-llm-reference"
+## GAUSS Code Generation Rules
 
-### With GitHub Copilot
-Add this repo to your workspace or reference it in comments.
+- **`local` is ONLY valid inside procedures** — never use `local` at global scope. At global scope, just assign variables directly.
+- **GAUSS identifiers are case-insensitive** - `coef_est`, `Coef_Est`, and `COEF_EST` are the same symbol. Use one canonical spelling, preferably `lower_snake_case`. Never create separate variables, procedures, structs, or user-defined fields that differ only by case.
+- **Reserved words and built-in names are forbidden for new identifiers** - before creating any variable, procedure, struct, or user-defined field name, compare it case-insensitively against GAUSS keywords, commands, built-in procedures/functions, and app/library procedure names. If it matches, choose a different name. Bad names include `if`, `for`, `proc`, `endp`, `local`, `retp`, `call`, `struct`, `print`, `format`, `load`, `save`, `beta`, and `gamma`. Use names like `if_flag`, `for_idx`, `result_mat`, `load_path`, `coef_vec`, `beta_param`, or `gamma_param` instead.
+- **Wrap print expressions in parentheses:** `print (1 + 2);` not `print 1 + 2;` — spaces around operators cause parse errors in versions before 26.0.1. Most users are on older versions.
+- **Boolean row selection uses `selif()`**, not bracket indexing. `selif(x, x[.,1] .> 0)` — never `x[x[.,1] .> 0]`.
+- **String operators use `$` prefix:** `$+` combine, `$|` vertical concat, `$~` horizontal concat. Never use `+` for string concatenation.
+- **`==` is matrix-wide (returns scalar 1 if ALL elements match).** Use `.==` for an element-wise 0/1 mask. This is the opposite of MATLAB where `==` is element-wise.
 
-## What's Included
+## Quick Reference
 
-- **`CLAUDE.md`** - Main reference (start here)
-- **`gotchas/`** - Common mistakes LLMs make with GAUSS
-- **`language/`** - Core language features (matrices, dataframes, strings)
-- **`vs-other-languages/`** - Translation guides from Python, R, MATLAB
-- **`apps/`** - Application module guides (TSMT, GARCH)
+### Identifier Naming
 
-## About GAUSS
+GAUSS is case-insensitive and has many built-in symbols. Treat reserved-word and built-in-name checks as exact matches after lowercasing.
 
-[GAUSS](https://www.aptech.com/) is a matrix programming language for mathematics and statistics, developed by Aptech Systems. It's used for econometrics, time series analysis, financial modeling, and statistical research.
+Before writing a new identifier:
+
+1. Lowercase the candidate name.
+2. Reject it if it matches any GAUSS keyword, command, built-in function/procedure, app/library procedure, or existing identifier in the same scope.
+3. Reject it if another generated identifier has the same lowercase spelling.
+4. Prefer descriptive `lower_snake_case` names with suffixes like `_vec`, `_mat`, `_idx`, `_flag`, `_path`, `_ctl`, or `_out`.
+
+Common unsafe names are not limited to control-flow words. Statistical names like `beta` and `gamma` are also built-ins, so do not create variables with those exact names.
+
+```gauss
+// WRONG: these create identifiers that collide with GAUSS syntax or built-ins
+Beta = olsqr(y, x);        // same as beta; collides with beta()
+gamma = 0.9;               // collides with gamma()
+format = "csv";            // collides with format
+load = "data.csv";         // collides with load
+for = 1;                   // collides with for
+
+// RIGHT: descriptive names that do not exactly match reserved/built-in names
+coef_vec = olsqr(y, x);
+gamma_param = 0.9;
+format_name = "csv";
+load_path = "data.csv";
+for_idx = 1;
+```
+
+Access documented output fields with their documented names, but do not copy them into unsafe identifiers:
+
+```gauss
+// OK: documented output structure field
+coef_vec = out.beta;
+
+// WRONG: creates a new identifier named beta
+beta = out.beta;
+```
+
+### Basic Operators
+
+```gauss
+// Arithmetic (element-wise by default)
+a + b       // addition
+a - b       // subtraction
+a * b       // matrix multiplication (NOT element-wise)
+a .* b      // element-wise multiplication
+a / b       // matrix division (b^-1 * a)
+a ./ b      // element-wise division
+a ^ 2       // element-wise power (historical)
+a .^ 2      // element-wise power (same as ^)
+powerm(a, 2) // matrix power
+
+// Comparison: dot prefix (.) makes it element-wise
+//   Without dot → matrix-wide → returns scalar (1 if ALL satisfy, else 0)
+//   With dot    → element-wise → returns 0/1 matrix
+
+// Matrix-wide (scalar result)
+a == b      a != b      a < b      a <= b      a > b      a >= b
+
+// Element-wise (0/1 matrix)
+a .== b     a .!= b     a .< b     a .<= b     a .> b     a .>= b
+
+// Example:
+x = { 1, 2, 3 };
+x > 2;      // 0 (not ALL elements > 2)
+x .> 2;     // { 0, 0, 1 }
+
+// Logical (same dot-prefix rule: dot = element-wise)
+a and b     a or b      not a       // matrix-wide (scalar)
+a .and b    a .or b     .not a      // element-wise (0/1 matrix)
+
+// String operators
+a $+ b      // string combine (merges into single string)
+a $~ b      // string horizontal concatenation (creates columns)
+a $| b      // string vertical concatenation (creates rows)
+```
+
+### Matrix Creation
+
+```gauss
+// Numeric matrices
+x = { 1 2 3, 4 5 6 };           // 2x3 matrix (commas separate rows)
+x = zeros(3, 4);                 // 3x4 matrix of zeros
+x = ones(3, 4);                  // 3x4 matrix of ones
+x = eye(3);                      // 3x3 identity matrix
+x = rndn(100, 5);                // 100x5 random normal
+x = rndu(100, 5);                // 100x5 random uniform [0,1)
+x = 1:10;                        // sequence: 1, 2, ..., 10
+x = 0:0.5:2;                     // sequence: 0, 0.5, 1, 1.5, 2 (start:step:end)
+x = seqa(1, 1, 10);              // same as 1:10
+
+// String arrays
+s = "hello";                     // string
+s = "a" $| "b" $| "c";           // 3x1 string array (vertical concat)
+s = "a" $~ "b" $~ "c";           // 1x3 string array (horizontal concat)
+s = "a" $+ "b";                  // "ab" (string combine)
+string s = { "a" "b", "c" "d", "e" "f" }; // 3x2 string array
+```
+
+### Matrix Indexing
+
+```gauss
+x = rndn(5, 3);
+
+// Row/column selection (. or 0 means "all")
+x[1, .]         // first row, all columns
+x[., 2]         // all rows, second column
+x[1:3, .]       // rows 1-3, all columns
+x[., 2:3]       // all rows, columns 2-3
+x[1, 2]         // single element
+
+// Boolean/conditional selection (use selif, not direct indexing)
+selif(x, x[., 1] .> 0)       // rows where column 1 > 0
+delif(x, x[., 1] .< 0)       // delete rows where column 1 < 0
+indexcat(x[., 1] .> 0, 1)  // get row indices where condition is true
+
+// Dataframe column selection by name
+df[., "Age"]                    // single column
+df[., "Age" "Income"]           // multiple columns (space-separated)
+df[., "Age":"Zip"]              // column range
+```
+
+### Control Flow
+
+```gauss
+// If statement
+if x > 0;
+    y = 1;
+elseif x < 0;
+    y = -1;
+else;
+    y = 0;
+endif;
+
+// For loop
+for i (1, 10, 1);      // i from 1 to 10, step 1
+    print i;
+endfor;
+
+// While loop
+i = 1;
+do while i <= 10;
+    print i;
+    i = i + 1;
+endo;
+
+// Do until loop
+i = 1;
+do until i > 10;
+    print i;
+    i = i + 1;
+endo;
+```
+
+### Procedures (Functions)
+
+```gauss
+// Basic procedure
+proc (1) = myMean(x);
+    local m;              // declare ALL locals at top of proc
+    m = meanc(x);
+    retp(m);
+endp;
+
+// Local variable rules:
+// 1. Only valid inside procs (not at global scope)
+// 2. Scoped to ENTIRE proc, not to blocks (even if declared in a block)
+// 3. Declare each local only ONCE per proc
+
+// OK: declaring local inside a block (but it's proc-scoped)
+proc (1) = okExample(x);
+    local i;
+    for i (1, 10, 1);
+        local temp;       // OK, but temp is scoped to entire proc
+        temp = x[i];
+    endfor;
+    print temp;           // works - temp is still in scope
+    retp(temp);
+endp;
+
+// WRONG: declaring same local twice
+proc (1) = badExample(x);
+    local i;
+    for i (1, 10, 1);
+        local temp;
+        temp = x[i];
+    endfor;
+
+    local temp;           // WRONG: temp already declared above
+    retp(x);
+endp;
+
+// BEST PRACTICE: declare all locals at top for clarity
+proc (1) = bestExample(x);
+    local i, temp, result;    // all locals at top
+
+    for i (1, 10, 1);
+        temp = x[i];
+    endfor;
+
+    if x > 0;
+        result = sqrt(x);
+    endif;
+
+    retp(result);
+endp;
+
+// Multiple return values
+proc (2) = myStats(x);
+    local m, s;
+    m = meanc(x);
+    s = stdc(x);
+    retp(m, s);
+endp;
+
+// Call with multiple returns
+{ avg, sd } = myStats(data);
+
+// Optional arguments pattern
+proc (1) = myFunc(x, ...);
+    local opt1, opt2;
+    { opt1, opt2 } = dynargsGet(1|2, 1, "default");  // indices, then defaults
+
+    // rest of code
+
+    retp(result);
+endp;
+
+// Calling:
+myFunc(x);                    // opt1=1, opt2="default"
+myFunc(x, 5);                 // opt1=5, opt2="default"
+myFunc(x, 5, "custom");       // opt1=5, opt2="custom"
+
+// Dynamic argument functions:
+dynargsCount()    // Number of optional args passed
+dynargsTypes()    // Vector of type codes for each arg
+dynargsGet(1, default)        // Get 1st optional arg with default
+dynargsGet(1|2|3, d1, d2, d3) // Get multiple with defaults
+
+// Type codes (from dynargsTypes):
+//   6=matrix  13=string  15=string array  17=struct  21=array  23=struct pointer  38=sparse
+```
+
+### Structures
+
+```gauss
+// Define structure
+struct mySettings {
+    scalar alpha;
+    scalar maxIters;
+    string method;
+    matrix startVals;
+};
+
+// Create and use
+struct mySettings s;
+s.alpha = 0.05;
+s.maxIters = 100;
+s.method = "BFGS";
+s.startVals = zeros(5, 1);
+
+// Pass to procedure
+proc (1) = optimize(data, struct mySettings s);
+    // use s.alpha, s.maxIters, etc.
+endp;
+```
+
+See `language/structures.md` for control structures (olsmt, glm, etc.)
+
+### Loading and Saving Data
+
+```gauss
+// Load data (auto-detects format: CSV, Excel, Stata, SAS, HDF5)
+data = loadd("mydata.csv");
+data = loadd("mydata.xlsx");
+data = loadd("mydata.dta");
+
+// Load specific columns with formula string
+data = loadd("mydata.csv", "Income + Age + Gender");
+
+// Load all except some columns
+data = loadd("mydata.csv", ". - ID - Timestamp");
+
+// Load with type specification
+data = loadd("mydata.csv", "date(Date) + cat(Region) + Age");
+
+// Save data
+saved(data, "output.csv");
+saved(data, "output.xlsx");
+saved(data, "output.gdat");  // GAUSS native format
+```
+
+### Dataframes
+
+```gauss
+// Create dataframe from matrix
+df = asdf(matrix_data, "col1" $| "col2" $| "col3");
+
+// Column operations
+df = df[., "Age" "Income"];             // select columns
+head(df);                                // first 5 rows
+tail(df);                                // last 5 rows
+
+// Filter rows
+young = selif(df, df[., "Age"] .< 30);
+
+// Dataframe info
+rows(df);                                // number of rows
+cols(df);                                // number of columns
+getColNames(df);                         // column names
+getColTypes(df);                         // column types (number, string, date, category)
+
+// Aggregation
+result = aggregate(df, "mean", "group_col");
+result = aggregate(df, "sum", "col1" $| "col2");  // multiple group columns
+```
+
+See `language/dataframes.md` for comprehensive dataframe operations.
+
+### Print Statement
+
+```gauss
+// Basic printing - space-separated items
+print x;                        // print variable
+print "Hello";                  // print string
+print "Value:" x;               // string followed by variable
+print "x=" x "y=" y;            // multiple items
+
+// Print multiple variables
+print x y z;                    // prints x, y, z with spaces
+
+// Print matrix with label
+print "Results:";
+print results;
+
+// Print formatting with format statement
+format /rd 10,4;                // 10 wide, 4 decimal places
+print x;
+format /m1 /ro 16,8;            // reset to defaults
+
+// Format specifiers
+format /rd 8,2;                 // right-justify, decimal, 8 wide, 2 decimals
+format /ld 8,2;                 // left-justify, decimal
+format /re 12,4;                // right-justify, exponential notation
+format /ro 8,2;                 // right-justify, overflow stars if too wide
+
+// Suppress line break (print continuation)
+print "Part 1";;                // ;; suppresses newline
+print " Part 2";                // continues on same line
+// Output: "Part 1 Part 2"
+
+// Print to string (sprintf equivalent)
+s = sprintf("%10.4f", x);       // formatted string
+s = sprintf("Name: %s, Value: %g", name, val);
+
+// Common format patterns
+format /rd 12,6;                // for doubles/floats
+format /rd 8,0;                 // for integers
+format /rd 1,0;                 // compact (minimal spacing)
+
+// ntos - number to string
+s = ntos(x);                    // default formatting
+s = ntos(x, 3);                 // 3 decimal places
+```
+
+**Print gotchas:**
+```gauss
+// WRONG: comma-separated items
+print "x=", x;                  // ERROR - no commas
+
+// WRONG: concatenation in print
+print "x=" $+ ntos(x);          // Works but verbose
+
+// RIGHT: space-separated
+print "x=" x;                   // Simple and correct
+
+// WRONG: using ;; between separate print statements for complex logic
+if cond;
+    print "yes";;
+endif;
+print "done";                   // ;; doesn't work across statements
+
+// RIGHT: build string first for complex conditional output
+// At global scope, do not declare local variables.
+msg = "";
+if cond;
+    msg = "yes ";
+endif;
+msg = msg $+ "done";
+print msg;
+```
+
+### Common Statistical Functions
+
+```gauss
+// Descriptive statistics
+meanc(x)        // column means
+stdc(x)         // column std deviations
+minc(x)         // column minimums
+maxc(x)         // column maximums
+sumc(x)         // column sums
+prodc(x)        // column products
+median(x)       // median (whole matrix)
+
+// Matrix operations
+x'              // transpose
+inv(x)          // inverse
+invpd(x)        // inverse for positive definite matrix
+det(x)          // determinant
+rank(x)         // rank
+eig(x)          // eigenvalues
+svd(x)          // singular value decomposition
+
+// Linear algebra
+y = x * b;              // matrix multiply
+b = y / x;              // solve y = x * b for b
+b = inv(x'x) * x'y;     // OLS the hard way
+b = olsqr(y, x);        // OLS the easy way
+
+// Efficient determinant
+L = chol(X);
+d = detl;   // grab determinant computed during chol call
+```
+
+### Graphics (Basic)
+
+```gauss
+// Scatter plot
+plotScatter(x, y);
+
+// Line plot
+plotXY(x, y);
+
+// Histogram
+plotHist(x, 20);    // 20 bins
+
+// With customization
+struct plotControl pc;
+pc = plotGetDefaults("scatter");
+plotSetTitle(&pc, "My Title");
+plotSetXLabel(&pc, "X Variable");
+plotSetYLabel(&pc, "Y Variable");
+plotScatter(pc, x, y);
+```
+
+See `language/graphics.md` for comprehensive graphics reference.
+
+### Common Patterns
+
+#### Reading and Cleaning Data
+```gauss
+// Load and preview
+data = loadd("mydata.csv");
+head(data);
+rows(data);
+getColNames(data);
+
+// Handle missing values
+data = packr(data);              // remove rows with any missing
+data = impute(data, "mean");     // fill missing with column mean
+
+// Filter data
+subset = selif(data, data[., "Age"] .>= 18);
+```
+
+#### Regression Analysis
+```gauss
+// Quick OLS (prints result table)
+call olsmt(mydf, "y ~ x1 + x2");
+
+// OLS with output structure
+struct olsmtOut out;
+out = olsmt(mydf, "y ~ x1 + x2 + x3");
+
+print out.beta;
+print out.stderr;
+```
+
+#### Panel Data
+```gauss
+// Check if balanced
+pdIsBalanced(panel);
+
+// Create lags by group
+panel_lagged = pdLag(panel, 1);
+
+// Difference by group
+panel_diff = pdDiff(panel, 1);
+
+// Panel summary statistics
+pdSummary(panel);
+```
+
+### GAUSS vs Other Languages
+
+| Operation | GAUSS | Python/NumPy | R | MATLAB |
+|-----------|-------|--------------|---|--------|
+| Matrix multiply | `a * b` | `a @ b` | `a %*% b` | `a * b` |
+| Element-wise multiply | `a .* b` | `a * b` | `a * b` | `a .* b` |
+| Boolean indexing | `selif(x, mask)` | `x[mask]` | `x[mask,]` | `x(mask,:)` |
+| String concat | `a $+ b` | `a + b` | `paste0(a,b)` | `strcat(a,b)` |
+| Array indexing | 1-based | 0-based | 1-based | 1-based |
+| End statement | `;` required | newline | newline | `;` optional |
+| Column vector | `{1,2,3}` | `[[1],[2],[3]]` | `c(1,2,3)` | `[1;2;3]` |
+| Row vector | `{1 2 3}` | `[1,2,3]` | `t(c(1,2,3))` | `[1 2 3]` |
+| Inline column vector | `1\|2\|3` | `np.array([1,2,3])` | `c(1,2,3)` | `[1;2;3]` |
+| Inline row vector | `1~2~3` | `[1,2,3]` | `t(c(1,2,3))` | `[1 2 3]` |
+| Sequence 1 to n | `1:n` | `range(1,n+1)` | `1:n` | `1:n` |
+| Logical AND | `a and b` or `.and` | `a & b` | `a & b` | `a & b` |
+| Logical OR | `a or b` or `.or` | `a \| b` | `a \| b` | `a \| b` |
+| Not equal (element-wise) | `.!=` | `!=` | `!=` | `~=` |
+| Not equal (matrix) | `!=` | n/a | n/a | n/a |
+| Comments | `//` or `/* */` | `#` | `#` | `%` |
+| Function def | `proc (n) = f(x);` | `def f(x):` | `f <- function(x)` | `function y = f(x)` |
+| Return value | `retp(x)` | `return x` | `return(x)` | `y = x` (implicit) |
+
+**Key differences from Python/NumPy:**
+- `*` is matrix multiply in GAUSS, element-wise in Python
+- Use `selif()` not `x[condition]` for boolean selection
+- Indices start at 1, not 0
+- Semicolons required at end of statements
+- String operators use `$` prefix: `$+`, `$|`, `$~`
+- String comparison is `$==` (element-wise: `.$==`)
+
+**Key differences from MATLAB:**
+- String operators differ: `$+` (GAUSS) vs `strcat` (MATLAB)
+- `!=` comparison is `.!=` in GAUSS
+- Procedures use `proc`/`endp` not `function`/`end`
+- Return with `retp()` not implicit assignment
+
+### Gotchas and Common Mistakes
+
+```gauss
+// WRONG: * is matrix multiply, not element-wise
+a * b               // matrix multiplication
+a .* b              // element-wise (probably what you want)
+
+// WRONG: = in conditions
+if x = 5;           // WRONG: this assigns 5 to x
+if x == 5;          // RIGHT: comparison
+
+// WRONG: forgetting semicolons
+x = 5               // ERROR
+x = 5;              // RIGHT
+
+// WRONG: string concat with +
+"a" + "b"           // ERROR
+"a" $+ "b"          // RIGHT: "ab"
+
+// WRONG: combining when array needed
+"a" $+ "b" $+ "c"   // 1x1 string "abc"
+"a" $| "b" $| "c"   // 3x1 string array (e.g., for column names)
+
+// NOTE: GAUSS is 1-indexed, not 0-indexed
+x[1, 1]             // first element
+x[0, 1]             // 0 means "all" - same as x[., 1]
+
+// WRONG: == vs .== confusion
+a == b              // Matrix comparison: scalar 1 if ALL equal
+a .== b             // Element-wise: returns 0/1 matrix (mask)
+// Use .== when you want a mask for selif()
+
+// Colon range syntax
+x = 1:8;            // creates 1, 2, 3, ..., 8
+x = 1:2:8;          // creates 1, 3, 5, 7 (start:step:end)
+x = seqa(1, 1, 8);  // equivalent to 1:8
+
+// WRONG: curly braces don't work inline with functions
+y = sumc({1,2,3});  // ERROR - can't use braces inline
+y = sumc(1|2|3);    // RIGHT: use | for vertical concat
+y = sumr(1~2~3);    // RIGHT: use ~ for horizontal concat
+```
+
+### Topic-Specific References
+
+- `language/dataframes.md` - Dataframe operations, formula strings, types
+- `language/structures.md` - Control structures for olsmt, glm, estimation
+- `language/strings.md` - String manipulation and formatting
+- `language/graphics.md` - Plotting and visualization
+- `language/io.md` - File I/O, databases, web data
+- `language/matrices.md` - Matrix operations and linear algebra
+- `language/timeseries.md` - Time series analysis
+- `language/panel.md` - Panel data operations
+- `language/libraries.md` - Libraries, `#include`, `SRC_PATH`, code organization
+
+### Application Modules
+
+- `apps/tsmt.md` - Time Series MT
+- `apps/fanpac.md` - FANPAC (Factor Analysis)
+- `apps/cointegration.md` - Cointegration analysis
+- `apps/garch.md` - GARCH modeling
 
 ## Contributing
 
-Found an error or want to improve the documentation? Pull requests welcome!
+Keep each rule in one canonical location. Update this file for general rules
+and the relevant topic file for topic-specific detail; do not copy the full
+reference back into client entrypoints.
 
 ## License
 
-MIT License - feel free to use and share.
+MIT License.

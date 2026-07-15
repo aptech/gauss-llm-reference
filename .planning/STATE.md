@@ -1,82 +1,51 @@
----
-gsd_state_version: 1.0
-milestone: v1.2
-milestone_name: Polish & Efficiency
-status: completed
-stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-03-15T13:07:54.042Z"
-last_activity: 2026-03-15 — Completed 10-01 glossary generation module + CLI subcommand
-progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
----
+# Historical Completion Snapshot
 
-# Project State
+This is the final, non-executable state record for the completed
+`gauss-doc-qa` delivery project. It is not a current focus, resumable session,
+task queue, or agent instruction. See `.planning/README.md` for the archive
+boundary.
 
-## Project Reference
+## Final Position
 
-See: .planning/PROJECT.md (updated 2026-03-15)
+- Completed milestone: v1.2 — Polish & Efficiency
+- Status: completed
+- Completion date: 2026-03-15
+- Final phase: 10 of 10 — Glossary Generation
+- Final plan: 10-01, completed
+- Completed phases in v1.2: 3 of 3
+- Completed plans in v1.2: 4 of 4
+- Pending todos at closeout: none
+- Blockers at closeout: none
 
-**Core value:** Every function in the Command Reference must have an accurate signature, correct examples, and be reachable from navigation
-**Current focus:** Phase 10 — Glossary Generation -- COMPLETE
-
-## Current Position
-
-Phase: 10 of 10 (Glossary Generation) -- COMPLETE
-Plan: 1 of 1 (done)
-Status: Complete
-Last activity: 2026-03-15 — Completed 10-01 glossary generation module + CLI subcommand
-
-Progress: [██████████] 100%
-
-## Performance Metrics
-
-**Velocity:**
-- Total plans completed: 4 (v1.2)
-- Average duration: 3min
-- Total execution time: 12min
+## Final Performance Snapshot
 
 | Phase | Plan | Duration | Tasks | Files |
-|-------|------|----------|-------|-------|
-| 08 | 01 | 4min | 2 | 5 |
-| 08 | 02 | 3min | 2 | 2 |
-| 09 | 01 | 2min | 2 | 3 |
+|---|---|---:|---:|---:|
+| 08 | 01 | 4 min | 2 | 5 |
+| 08 | 02 | 3 min | 2 | 2 |
+| 09 | 01 | 2 min | 2 | 3 |
+| 10 | 01 | 3 min | 2 | 3 |
 
-*Updated after each plan completion*
-| Phase 10 P01 | 3min | 2 tasks | 3 files |
+Total recorded execution time for the four v1.2 plans was 12 minutes.
 
-## Accumulated Context
+## Decisions Preserved At Closeout
 
-### Decisions
+- v1.2 covered diff mode, `:doc:`/`:ref:` auto-fix, glossary auto-fix, and
+  glossary generation.
+- Extended reference and glossary fixes were combined in Phase 8 because they
+  share auto-fix infrastructure and leaf-text-only safety rules.
+- `resolve_ref_ref` uses `0.80` minimum confidence because labels often include
+  prefixes or suffixes; exact glossary aliases use confidence `1.0`.
+- Fix resolution routes by category, and glossary proposals share the ordinary
+  proposal/apply pipeline.
+- Diff mode accepts SVN revisions and dates; SVN diff paths are parsed from the
+  final whitespace-separated field.
+- Diff and glossary-generation modules remain lazy imports in the CLI.
+- Glossary generation recognizes all-caps terms and extracts two-word terms
+  independently of three-word supersets.
 
-- [v1.2 scope]: 4 feature areas — diff-mode, :doc:/:ref: auto-fix, glossary auto-fix, glossary auto-generation
-- [v1.2 scope]: No research needed — all features extend existing infrastructure
-- [v1.2 roadmap]: EFIX + GFIX combined into Phase 8 (shared auto-fix infrastructure and leaf-text-only safety)
-- [08-01]: resolve_ref_ref uses 0.80 min_confidence (lower than func/doc 0.85) since labels often have prefixes/suffixes
-- [08-01]: Glossary fixes use confidence 1.0 since aliases are exact matches not fuzzy
-- [08-01]: resolve_fixes routes by category to appropriate resolver function
-- [08-02]: Glossary fixes combined into same proposals list as ref fixes for uniform apply_fixes handling
-- [08-02]: doc_names/label_names extracted from env inline in fix command
-- [09-01]: parse_since uses re.fullmatch for SVN rev and strptime for dates
-- [09-01]: SVN diff output parsed by splitting whitespace, taking last element as path
-- [09-01]: Diff module lazy-imported inside scan() to avoid overhead when --since not used
-- [Phase 10]: All-caps regex added alongside proper noun pattern for terms like GAUSS, ARIMA
-- [Phase 10]: Separate 2-word regex ensures 2-word terms captured independently of 3-word supersets
-- [Phase 10]: Lazy import of glossary_gen in CLI matches existing pattern for diff module
+## Closed Continuity
 
-### Pending Todos
-
-None.
-
-### Blockers/Concerns
-
-None.
-
-## Session Continuity
-
-Last session: 2026-03-15T13:05:05.431Z
-Stopped at: Completed 10-01-PLAN.md
-Resume file: None
+The last recorded activity was completion of the glossary-generation module
+and CLI subcommand on 2026-03-15. There is no resume file, active session,
+current phase, or auto-chain configuration.
