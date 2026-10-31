@@ -108,7 +108,7 @@ df = insertcols(df, "Age", new_col);
 df = insertcols(df, 0, new_col);
 
 // Rename columns
-df = dfname(df, "OldName", "NewName");
+df = dfname(df, "NewName", "OldName");   // new name first, then the column to rename
 
 // Drop columns (select all except)
 df = delcols(df, "DropMe");
