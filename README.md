@@ -10,7 +10,7 @@ analysis, econometrics, and data science.
 - Remote consumers should fetch this canonical file directly from
   [GitHub](https://github.com/aptech/gauss-llm-reference/blob/main/README.md).
 - Load only the relevant detailed topic from `language/`, `gotchas/`,
-  `vs-other-languages/`, or `apps/` when the task needs it.
+  `patterns/`, `vs-other-languages/`, or `apps/` when the task needs it.
 - `AGENTS.md` and `CLAUDE.md` are intentionally small client entrypoints. They
   route here and do not own separate copies of the language rules.
 - The executable Python documentation-audit tool lives under `gauss-doc-qa/`.
@@ -24,6 +24,7 @@ Repository map:
 | `README.md` | Canonical general GAUSS quick reference |
 | `language/` | Detailed language and standard-library topics |
 | `gotchas/` | Focused failure modes and corrections |
+| `patterns/` | Idiomatic GAUSS: the clumsy way and the GAUSS way |
 | `vs-other-languages/` | Translation guidance for users of other languages |
 | `apps/` | GAUSS application-module references |
 | `gauss-doc-qa/` | Python QA tooling for GAUSS documentation |
