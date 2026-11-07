@@ -249,6 +249,29 @@ A constant string table is a brace literal passed inline, `names={ "VAR",
 A bare `x = { "a", "b" };` is an old-style character matrix. Inside a `proc`,
 `string x = { ... };` does not compile; pass the literal inline or use `$|`.
 
+## Ranges for integer sequences
+
+Write a sequence of whole numbers as `a:b` or `a:b:c` (start, step, end).
+The values are visible at a glance; with `seqa` the reader has to work out
+the last one.
+
+```gauss
+// Clumsy
+origins = seqa(200, 1, 33);
+rows_h1 = seqa(1, h, n_vars);
+
+// GAUSS
+origins = 200:232;
+rows_h1 = 1:h:rows(fe.rmse);
+idx = selif(1:rows(names), in_sys[., s] .== 1);
+```
+
+Ranges are column vectors. They take variables and expressions, and work as
+arguments: `forecastEval(y, models, origins=200:232)`. `:` binds more
+loosely than arithmetic, so `n-m+1:n` needs no parentheses. Keep `seqa` for
+steps that are not whole numbers, where the count is the natural input:
+`grid = seqa(0.07, 0.0005, 501);`.
+
 ## Refer to columns by name, not by position
 
 ```gauss
