@@ -575,6 +575,9 @@ pdSummary(panel);
 
 ### Gotchas and Common Mistakes
 
+Also read [gotchas/language-traps.md](gotchas/language-traps.md): `and`/`or` evaluate both
+sides, `!=` on matrices, `not` precedence, `if` on vectors, error codes in missing values.
+
 ```gauss
 // WRONG: * is matrix multiply, not element-wise
 a * b               // matrix multiplication
