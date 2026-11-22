@@ -108,3 +108,20 @@ and `+` do not compare or join strings.
 s = "abc";
 s $== "abc";       // 1
 ```
+
+## Keyword names in a library proc must be written out
+
+Write a keyword parameter's name literally in the `proc` line. A `#define`
+name works when the file is compiled directly, but the library scanner that
+autoloads procedures reads the `proc` line without expanding macros, so the
+keyword is registered under the macro's name. Checked in GAUSS 27 (build 70).
+
+```gauss
+// WRONG in a library .src file: a call that autoloads minimize fails
+// with G0739 Unknown keyword argument 'gradCheck'
+#define GRADCHECK_KW gradCheck
+proc (1) = minimize(fct, x0, method="", GRADCHECK_KW=0, ...);
+
+// RIGHT
+proc (1) = minimize(fct, x0, method="", gradCheck=0, ...);
+```
