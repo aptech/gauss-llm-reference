@@ -109,6 +109,23 @@ s = "abc";
 s $== "abc";       // 1
 ```
 
+## String slice assignment needs the selected shape
+
+Assigning one string to several selected rows does not broadcast (G0047,
+checked in GAUSS 27). Build the replacement string array explicitly:
+
+```gauss
+x = "a" $| "b" $| "c";
+idx = 1 | 3;
+x[idx] = reshape("", rows(idx), 1);  // RIGHT
+// x[idx] = "";                     // WRONG: Rows don't match
+```
+
+## `counts` is a reserved word
+
+Do not use `counts` as a variable name; it produces G0276. Use a descriptive
+name such as `fit_counts` (checked in GAUSS 27).
+
 ## Keyword names in a library proc must be written out
 
 Write a keyword parameter's name literally in the `proc` line. A `#define`
