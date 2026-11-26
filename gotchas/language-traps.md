@@ -126,6 +126,19 @@ x[idx] = reshape("", rows(idx), 1);  // RIGHT
 Do not use `counts` as a variable name; it produces G0276. Use a descriptive
 name such as `fit_counts` (checked in GAUSS 27).
 
+## Date formats inside load formulas use single quotes
+
+The formula parser strips single quotes around the format, not escaped double
+quotes. The latter can turn every date into missing (checked in GAUSS 27).
+
+```gauss
+x = loadd("dates.csv", "date($when, '%d/%m/%Y')");       // RIGHT
+// loadd("dates.csv", "date($when, \"%d/%m/%Y\")");     // WRONG
+```
+
+A column name containing spaces can remain bare inside the date expression:
+`"date($my when, '%d/%m/%Y')"` works for a column named `my when`.
+
 ## Keyword names in a library proc must be written out
 
 Write a keyword parameter's name literally in the `proc` line. A `#define`
