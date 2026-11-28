@@ -84,6 +84,34 @@ z = sumc(x);      // Result is missing (.) because of the missing value
 z = sumc(packr(x));  // 4 (sum of 1 and 3)
 ```
 
+## minc() and maxc() Skip Missing Values
+
+`minc` and `maxc` are exceptions: unlike `sumc` and `meanc`, they ignore
+missing and NaN elements. A check that takes the worst case with them
+passes when a value is missing. Comparisons with a missing or NaN value
+return 0, so `if worst > limit;` does not fire either. Checked in GAUSS
+26.1.4 (missing and NaN) and GAUSS 27.0.0 (NaN).
+
+```gauss
+x = { 15, 14, 16 };
+x[2] = miss();
+minc(x);    // 15, not missing
+maxc(x);    // 16, not missing
+sumc(x);    // . (missing)
+
+// WRONG: a missing digit count disappears and the check passes
+if minc(agree_digits) < 11;
+    errorlog "FAIL";
+endif;
+
+// RIGHT: test the values themselves first
+if isinfnanmiss(agree_digits) or minc(agree_digits) < 11;
+    errorlog "FAIL";
+endif;
+```
+
+`minc` of a vector that is entirely missing returns missing.
+
 ## selif() Returns Missing When No Match
 
 This is a common gotcha:
